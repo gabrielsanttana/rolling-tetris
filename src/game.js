@@ -1,9 +1,9 @@
-export default function createGame(){
+export default function createGame(height,width){
     const state = {
         tetriminos:{},
         currentTetriminoId: null,
-        width : 10,
-        height: 20,
+        height: height,
+        width : width,
         time_round  : 250,
         list_shapes :['I','O','T','S','Z','J','L']
         // list_shapes :['I']
@@ -306,7 +306,7 @@ export default function createGame(){
         let hasValidPosition = true
         
         blocksNewPosition.forEach( (blockNewPosition,index) => {
-            if(blockNewPosition.x > 9 || blockNewPosition.x < 0 || blockNewPosition.y > 19){
+            if(blockNewPosition.x >= state.width || blockNewPosition.x < 0 || blockNewPosition.y >= state.height){
                 hasValidPosition = false
                 // break
             } 

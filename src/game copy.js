@@ -1,9 +1,9 @@
-export default function createGame(){
+export default function createGame(height,width){
     const state = {
         tetriminos:{},
         currentTetriminoId: null,
-        width : 10,
-        height: 20,
+        height: height,
+        width : width,
         time_round  : 250,
         list_shapes :['I','O','T','S','Z','J','L']
     }
