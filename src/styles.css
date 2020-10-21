@@ -14,8 +14,6 @@ body,
 
 body,
 input,
-button,
-input {
-  font-family: 'Ubuntu', sans-serif;
+button {
   -webkit-font-smoothing: antialiased !important;
 }
