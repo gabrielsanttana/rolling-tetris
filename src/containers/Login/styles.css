@@ -58,3 +58,20 @@
 .loginWrapper .registerContainer a {
   text-decoration: none;
 }
+
+@media only screen and (max-width: 720px) {
+  .registerWrapper {
+    padding: 0 20px;
+  }
+}
+
+@media only screen and (max-height: 800px) {
+  .registerWrapper {
+    justify-content: unset;
+    padding-top: 30px;
+  }
+
+  .registerWrapper form {
+    margin-bottom: 30px;
+  }
+}
