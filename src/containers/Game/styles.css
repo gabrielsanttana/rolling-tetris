@@ -1,0 +1,119 @@
+header {
+  width: 100%;
+  padding: 10px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #3c405f;
+  color: #fff;
+}
+
+header img {
+  width: 70px;
+}
+
+header h1 {
+  padding-left: 200px;
+}
+
+nav {
+  display: flex;
+}
+
+nav .nav-item {
+  margin-left: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: filter 0.3s;
+}
+
+nav .nav-item:hover {
+  filter: brightness(50%);
+}
+
+body > main {
+  width: 100%;
+  max-width: 1300px;
+  margin: 40px auto 0;
+  display: flex;
+}
+
+#gameSection {
+  padding: 10px 0 30px 0;
+  background-color: #f2f2f2;
+}
+
+#gameSection header {
+  width: 100%;
+  background-color: #f2f2f2;
+  padding: 10px;
+}
+
+#gameSection header > div {
+  border: 1px solid #3c405f;
+  border-radius: 4px;
+  margin-right: 10px;
+  padding: 8px;
+  color: #3c405f;
+}
+
+.gameContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gameContainer img {
+  margin-top: 20px;
+}
+
+#tableSection {
+  margin-left: 20px;
+}
+
+#tableSection table {
+  box-shadow: 10px 6px 6px rgba(0, 0, 0, 0.1);
+  border-collapse: collapse;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+#tableSection table thead {
+  background-color: #f2f2f2;
+}
+
+#tableSection table thead th {
+  text-align: left;
+  color: #3c405f;
+  padding: 26px 13px 13px 30px;
+}
+
+#tableSection table tbody tr {
+  color: #414449;
+}
+
+#tableSection table tbody tr h4 {
+  margin-bottom: 5px;
+}
+
+#tableSection table tbody tr td {
+  min-width: 120px;
+  padding: 30px;
+  line-height: 28px;
+}
+
+#tableSection table tbody tr td ul {
+  list-style: none;
+}
+
+#tableSection table tbody tr td ul:not(:last-child) {
+  margin-bottom: 30px;
+}
+
+#tableSection table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#tableSection table tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
