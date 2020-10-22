@@ -10,10 +10,18 @@ body,
 #root {
   width: 100%;
   height: 100%;
+  background-color: aliceblue;
 }
 
 body,
 input,
-button {
+button,
+input {
+  font-family: 'Ubuntu', sans-serif;
   -webkit-font-smoothing: antialiased !important;
+}
+
+a {
+  text-decoration: none;
+  color: unset;
 }
