@@ -1,4 +1,4 @@
-.registerWrapper {
+.editWrapper {
   width: 100%;
   height: 100%;
   display: flex;
@@ -7,18 +7,18 @@
   align-items: center;
 }
 
-.registerWrapper form {
+.editWrapper form {
   width: 100%;
   max-width: 400px;
   display: flex;
   flex-direction: column;
 }
 
-.registerWrapper form label {
+.editWrapper form label {
   margin-bottom: 10px;
 }
 
-.registerWrapper form input {
+.editWrapper form input {
   width: 100%;
   height: 52px;
   margin-bottom: 20px;
@@ -26,11 +26,11 @@
   padding: 0 10px;
 }
 
-.registerWrapper form input::placeholder {
+.editWrapper form input::placeholder {
   opacity: 0.8;
 }
 
-.registerWrapper form button {
+.editWrapper form button {
   width: 100%;
   height: 52px;
   margin-top: 10px;
@@ -44,34 +44,34 @@
   transition: filter 0.4s;
 }
 
-.registerWrapper form button:hover {
+.editWrapper form button:hover {
   filter: brightness(70%);
 }
 
-.registerWrapper .registerContainer {
+.editWrapper .registerContainer {
   width: 100%;
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
 }
 
-.registerWrapper .registerContainer a {
+.editWrapper .registerContainer a {
   text-decoration: none;
 }
 
 @media only screen and (max-width: 720px) {
-  .registerWrapper {
+  .editWrapper {
     padding: 0 20px;
   }
 }
 
 @media only screen and (max-height: 800px) {
-  .registerWrapper {
+  .editWrapper {
     justify-content: unset;
     padding-top: 30px;
   }
 
-  .registerWrapper form {
+  .editWrapper form {
     margin-bottom: 30px;
   }
 }

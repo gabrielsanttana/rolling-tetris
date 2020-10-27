@@ -9,7 +9,7 @@
   </head>
 
   <body>
-    <section class="registerWrapper">
+    <section class="editWrapper">
       <form>
         <label for="name">Nome completo</label>
         <input
@@ -30,7 +30,13 @@
         />
 
         <label for="cpf">CPF</label>
-        <input type="text" name="cpf" id="cpf" placeholder="Digite sua senha" disabled />
+        <input
+          type="text"
+          name="cpf"
+          id="cpf"
+          placeholder="Digite sua senha"
+          disabled
+        />
 
         <label for="phoneNumber">Telefone</label>
         <input
@@ -73,27 +79,10 @@
           placeholder="Digite sua senha para confirmar a edição"
         />
 
-        <button type="button"><a href="../Game/index.html">Editar informações</a></button>
+        <button type="button">
+          <a href="../Game/index.html">Editar informações</a>
+        </button>
       </form>
     </section>
-    <script>
-      editField = (id, value) => {
-        var field = document.getElementById(id);
-        field.value = value;
-      }
-
-      var data = {
-        name: 'Wellington A',
-        birthdate: '26/07/1995',
-        cpf: '443889656754',
-        phoneNumber: '19981943409',
-        email: 'w178667@dac.unicamp.br',
-        username: 'wellingtonsilverio',
-      };
-
-      for (field in data) {
-        editField(field, data[field]);
-      }
-    </script>
   </body>
 </html>
