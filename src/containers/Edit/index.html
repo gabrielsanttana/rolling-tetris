@@ -10,13 +10,14 @@
 
   <body>
     <section class="editWrapper">
-      <form>
+      <form action="../Game/index.html">
         <label for="name">Nome completo</label>
         <input
           type="text"
           name="name"
           id="name"
           placeholder="Digite seu nome completo"
+          value="Gabriel Gomes de Santana"
           autofocus
         />
 
@@ -26,6 +27,7 @@
           name="birthdate"
           id="birthdate"
           placeholder="Digite sua data de nascimento"
+          value="10/10/1970"
           disabled
         />
 
@@ -34,7 +36,8 @@
           type="text"
           name="cpf"
           id="cpf"
-          placeholder="Digite sua senha"
+          placeholder="Digite seu CPF"
+          value="senha123"
           disabled
         />
 
@@ -44,6 +47,7 @@
           name="phoneNumber"
           id="phoneNumber"
           placeholder="Digite seu telefone"
+          value="199956565656"
         />
 
         <label for="email">E-mail</label>
@@ -52,6 +56,7 @@
           name="email"
           id="email"
           placeholder="Digite seu e-mail"
+          value="eu@eu.com"
         />
 
         <label for="username">Nome de usuário</label>
@@ -60,6 +65,7 @@
           name="username"
           id="username"
           placeholder="Digite seu nome de usuário"
+          value="euzinho"
           disabled
         />
 
@@ -69,19 +75,19 @@
           name="password"
           id="password"
           placeholder="Digite nova senha (deixe em branco para não mudar)"
+          value=""
         />
 
-        <label for="password">Senha</label>
+        <label for="password">Confimar senha</label>
         <input
           type="password"
-          name="password"
-          id="password"
+          name="passwordConfirmation"
+          id="passwordConfirmation"
           placeholder="Digite sua senha para confirmar a edição"
+          value=""
         />
 
-        <button type="button">
-          <a href="../Game/index.html">Editar informações</a>
-        </button>
+        <button type="submit">Editar informações</button>
       </form>
     </section>
   </body>

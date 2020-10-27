@@ -42,6 +42,9 @@
   cursor: pointer;
   background-color: #3c405f;
   transition: filter 0.4s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .editWrapper form button:hover {
