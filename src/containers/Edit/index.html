@@ -26,10 +26,11 @@
           name="birthdate"
           id="birthdate"
           placeholder="Digite sua data de nascimento"
+          disabled
         />
 
         <label for="cpf">CPF</label>
-        <input type="text" name="cpf" id="cpf" placeholder="Digite sua senha" />
+        <input type="text" name="cpf" id="cpf" placeholder="Digite sua senha" disabled />
 
         <label for="phoneNumber">Telefone</label>
         <input
@@ -53,6 +54,7 @@
           name="username"
           id="username"
           placeholder="Digite seu nome de usuário"
+          disabled
         />
 
         <label for="password">Senha</label>
@@ -60,11 +62,38 @@
           type="password"
           name="password"
           id="password"
-          placeholder="Digite sua senha"
+          placeholder="Digite nova senha (deixe em branco para não mudar)"
         />
 
-        <button type="button"><a href="../Game/index.html">Cadastrar</a></button>
+        <label for="password">Senha</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Digite sua senha para confirmar a edição"
+        />
+
+        <button type="button"><a href="../Game/index.html">Editar informações</a></button>
       </form>
     </section>
+    <script>
+      editField = (id, value) => {
+        var field = document.getElementById(id);
+        field.value = value;
+      }
+
+      var data = {
+        name: 'Wellington A',
+        birthdate: '26/07/1995',
+        cpf: '443889656754',
+        phoneNumber: '19981943409',
+        email: 'w178667@dac.unicamp.br',
+        username: 'wellingtonsilverio',
+      };
+
+      for (field in data) {
+        editField(field, data[field]);
+      }
+    </script>
   </body>
 </html>
