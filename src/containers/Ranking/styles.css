@@ -31,13 +31,17 @@ nav .nav-item:hover {
   filter: brightness(50%);
 }
 
-body > main {
+main {
   width: 100%;
   max-width: 1300px;
   margin: 40px auto 0;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+main h2 {
+  margin-bottom: 15px;
 }
 
 #tableSection {
