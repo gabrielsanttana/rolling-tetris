@@ -377,6 +377,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 90;
             }
             break;
+            
           case 90:
             topBlock = tetrimino.blocks[0];
 
@@ -397,6 +398,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 180;
             }
             break;
+            
           case 180:
             leftBlock = tetrimino.blocks[0];
 
@@ -417,6 +419,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 270;
             }
             break;
+            
           case 270:
             topBlock = tetrimino.blocks[0];
 
@@ -460,6 +463,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 90;
             }
             break;
+            
           case 90:
             middleBlock = tetrimino.blocks[1];
             rightBlock = tetrimino.blocks[2];
@@ -474,6 +478,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 180;
             }
             break;
+            
           case 180:
             leftBlock = tetrimino.blocks[0];
             middleBlock = tetrimino.blocks[1];
@@ -488,6 +493,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 270;
             }
             break;
+            
           case 270:
             topBlock = tetrimino.blocks[0];
             leftBlock = tetrimino.blocks[1];
@@ -530,6 +536,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 90;
             }
             break;
+            
           case 90:
             block_1_1 = tetrimino.blocks[0];
 
@@ -544,6 +551,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 180;
             }
             break;
+            
           case 180:
             block_1_1 = tetrimino.blocks[0];
 
@@ -558,6 +566,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 270;
             }
             break;
+            
           case 270:
             block_1_1 = tetrimino.blocks[0];
 
@@ -600,6 +609,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 90;
             }
             break;
+            
           case 90:
             block_1_1 = tetrimino.blocks[0];
 
@@ -614,6 +624,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 180;
             }
             break;
+            
           case 180:
             block_1_1 = tetrimino.blocks[0];
 
@@ -628,6 +639,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 270;
             }
             break;
+            
           case 270:
             block_1_1 = tetrimino.blocks[0];
 
@@ -670,6 +682,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 90;
             }
             break;
+            
           case 90:
             block_1_1 = tetrimino.blocks[0];
 
@@ -684,6 +697,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 180;
             }
             break;
+            
           case 180:
             block_1_1 = tetrimino.blocks[0];
 
@@ -698,6 +712,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 270;
             }
             break;
+            
           case 270:
             block_1_1 = tetrimino.blocks[0];
 
@@ -740,6 +755,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 90;
             }
             break;
+            
           case 90:
             block_1_1 = tetrimino.blocks[0];
 
@@ -754,6 +770,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 180;
             }
             break;
+            
           case 180:
             block_1_1 = tetrimino.blocks[0];
 
@@ -768,6 +785,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 270;
             }
             break;
+            
           case 270:
             block_1_1 = tetrimino.blocks[0];
 
