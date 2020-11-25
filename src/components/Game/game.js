@@ -1,23 +1,38 @@
 export default function createGame(height, width) {
+  const INITIAL_TIME_ROUND = 500;
+  const LIMIT_TIME_ROUND = 100;
+  const SPEED_INCREASE_TIME_ROUND = 100;
+  const TIME_ROUND_SCORE_INTERVAL = 300;
+  const SCORE_BONUS = 10;
+
   const state = {
     tetriminos: {},
     currentTetriminoId: null,
     height: height,
     width: width,
-    time_round: 250,
-    list_shapes: ['I', 'O', 'T', 'S', 'Z', 'J', 'L'],
+    time_round: INITIAL_TIME_ROUND,
+    // list_shapes: ['I', 'O', 'T', 'J', 'L', 'Q', 'U'],
+    list_shapes: ['I'],
+    score: 0,
+    is_upsidedown: false,
+    total_cleared_lines_count: 0,
   };
 
   function start() {
     addTetrimino(
       state.list_shapes[Math.floor(Math.random() * state.list_shapes.length)],
     );
-    setInterval(passRound, state.time_round);
+    window.setTimeout(passRound, state.time_round);
   }
 
   function restart() {
     state.tetriminos = {};
     state.currentTetriminoId = null;
+    state.time_round = INITIAL_TIME_ROUND;
+  }
+
+  function getLevelDifficulty(){
+    return Math.floor(state.score / TIME_ROUND_SCORE_INTERVAL);
   }
 
   function passRound() {
@@ -34,20 +49,21 @@ export default function createGame(height, width) {
         );
       }
     }
+    window.setTimeout(passRound, state.time_round);
   }
 
   function checkLines() {
     let allBlocks = [];
     //Create Array with all Blocks
     for (const tetrimino in state.tetriminos) {
-      state.tetriminos[tetrimino].blocks.forEach((block) => {
+      state.tetriminos[tetrimino].blocks.forEach(block => {
         allBlocks.push(block);
       });
     }
 
     //Check if is Game Over
-    let AllBlocksOnArray = allBlocks.map((block) => block.x + '-' + block.y);
-    let isDuplicate = AllBlocksOnArray.some(function (item, index) {
+    let AllBlocksOnArray = allBlocks.map(block => block.x + '-' + block.y);
+    let isDuplicate = AllBlocksOnArray.some(function(item, index) {
       return AllBlocksOnArray.indexOf(item) != index;
     });
     if (isDuplicate) {
@@ -55,15 +71,18 @@ export default function createGame(height, width) {
       restart();
     }
 
+    let cleared_lines_count = 0;
+    let current_tetrimino_type =
+      state.tetriminos[state.currentTetriminoId].type;
     //Check if there is Lines to Clean
     for (const row of Array(state.height).keys()) {
-      let blockInRow = allBlocks.filter((block) => {
+      let blockInRow = allBlocks.filter(block => {
         if (block.y === row) {
           return true;
         }
         return null;
       });
-      let colInRow = blockInRow.map((block) => block.x);
+      let colInRow = blockInRow.map(block => block.x);
 
       let clearLine = true;
       for (const col of Array(state.width).keys()) {
@@ -75,13 +94,39 @@ export default function createGame(height, width) {
       if (clearLine) {
         console.log('Limpar a Linha : ' + row);
         clearRow(row);
+        cleared_lines_count++;
       }
+    }
+
+    /*Contagem do total de linhas eliminadas*/
+    state.total_cleared_lines_count += cleared_lines_count;
+
+    /*Calculo da pontuação do usuario*/
+    state.score += SCORE_BONUS * Math.pow(cleared_lines_count, 2);
+    console.log('Score do Usuario : ' + state.score);
+
+    /*Calculo da velocidade/dificuldade do jogo*/
+    let new_time_round =
+      INITIAL_TIME_ROUND -
+      Math.floor(state.score / TIME_ROUND_SCORE_INTERVAL) *
+        SPEED_INCREASE_TIME_ROUND;
+    if (new_time_round > LIMIT_TIME_ROUND) {
+      state.time_round = new_time_round;
+    } else {
+      state.time_round = LIMIT_TIME_ROUND;
+    }
+
+    /*Verifica se o bloco é especial e se deve rotacionar o tabuleiro*/
+    console.log(state);
+    if (current_tetrimino_type === 'Q' && cleared_lines_count > 0) {
+      state.is_upsidedown = !state.is_upsidedown;
+      console.log('Virou o tabuleiro');
     }
 
     function clearRow(row) {
       //Clear Row
       for (const tetrimino in state.tetriminos) {
-        let newBlocks = state.tetriminos[tetrimino].blocks.filter((block) => {
+        let newBlocks = state.tetriminos[tetrimino].blocks.filter(block => {
           if (block.y === row) {
             return false;
           }
@@ -96,7 +141,7 @@ export default function createGame(height, width) {
 
       //Move Down Tetriminos blocks that are above the line
       for (const tetrimino in state.tetriminos) {
-        state.tetriminos[tetrimino].blocks.forEach((block) => {
+        state.tetriminos[tetrimino].blocks.forEach(block => {
           if (block.y < row) {
             block.y += 1;
           }
@@ -185,13 +230,31 @@ export default function createGame(height, width) {
         shape.blocks = [block_1_1, block_2_0, block_0_1, block_2_1];
         shape.color = '#f5841b';
       },
+      U: () => {
+        /*block_y_x -- y start from bottom and x start from left*/
+        let block_1_0 = createBlock(state.width / 2 - 1, -1);
+        let block_0_0 = createBlock(state.width / 2 - 1, 0);
+        let block_0_1 = createBlock(state.width / 2, 0); //Eixo da peça
+        let block_0_2 = createBlock(state.width / 2 + 1, 0);
+        let block_1_2 = createBlock(state.width / 2 + 1, -1);
+        shape.blocks = [block_0_1, block_1_0, block_0_0, block_0_2, block_1_2];
+        shape.color = '#00ffff';
+      },
+      Q: () => {
+        /*block_y_x -- y start from bottom and x start from left*/
+        let block_0_0 = createBlock(state.width / 2, 0);
+        shape.blocks = [block_0_0];
+        shape.color = '#ffff00';
+      },
     };
 
     const createShape = acceptedShapes[type];
 
     if (createShape) {
       createShape();
-      let id = Math.random().toString(36).substr(2, 9);
+      let id = Math.random()
+        .toString(36)
+        .substr(2, 9);
       console.log('Id da nova peça : ' + id);
       state.tetriminos[id] = shape;
 
@@ -291,13 +354,16 @@ export default function createGame(height, width) {
         rotateTetrimino(tetriminoId);
       },
       ArrowRight(tetriminoId) {
-        moveRight(tetriminoId);
+        state.is_upsidedown ? moveLeft(tetriminoId) : moveRight(tetriminoId);
       },
       ArrowDown(tetriminoId) {
-        moveDown(tetriminoId);
+        !state.is_upsidedown && moveDown(tetriminoId);
+      },
+      ArrowUp() {
+        state.is_upsidedown && moveDown(tetriminoId);
       },
       ArrowLeft(tetriminoId) {
-        moveLeft(tetriminoId);
+        state.is_upsidedown ? moveRight(tetriminoId) : moveLeft(tetriminoId);
       },
     };
 
@@ -328,7 +394,7 @@ export default function createGame(height, width) {
     for (const tetriminoKey in state.tetriminos) {
       if (tetriminoKey !== tetriminoId) {
         const tetrimino = state.tetriminos[tetriminoKey];
-        tetrimino.blocks.forEach((blockTetrimino) => {
+        tetrimino.blocks.forEach(blockTetrimino => {
           blocksNewPosition.forEach((blockNewPosition, index) => {
             if (
               blockTetrimino.y === blockNewPosition.y &&
@@ -346,7 +412,7 @@ export default function createGame(height, width) {
 
   function rotateTetrimino(tetriminoId) {
     const acceptedShapes = {
-      I: (tetriminoId) => {
+      I: tetriminoId => {
         let topBlock,
           middleTopBlock,
           middleBottomBlock,
@@ -377,7 +443,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 90;
             }
             break;
-            
+
           case 90:
             topBlock = tetrimino.blocks[0];
 
@@ -398,7 +464,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 180;
             }
             break;
-            
+
           case 180:
             leftBlock = tetrimino.blocks[0];
 
@@ -419,7 +485,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 270;
             }
             break;
-            
+
           case 270:
             topBlock = tetrimino.blocks[0];
 
@@ -463,7 +529,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 90;
             }
             break;
-            
+
           case 90:
             middleBlock = tetrimino.blocks[1];
             rightBlock = tetrimino.blocks[2];
@@ -478,7 +544,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 180;
             }
             break;
-            
+
           case 180:
             leftBlock = tetrimino.blocks[0];
             middleBlock = tetrimino.blocks[1];
@@ -493,7 +559,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 270;
             }
             break;
-            
+
           case 270:
             topBlock = tetrimino.blocks[0];
             leftBlock = tetrimino.blocks[1];
@@ -536,7 +602,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 90;
             }
             break;
-            
+
           case 90:
             block_1_1 = tetrimino.blocks[0];
 
@@ -551,7 +617,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 180;
             }
             break;
-            
+
           case 180:
             block_1_1 = tetrimino.blocks[0];
 
@@ -566,7 +632,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 270;
             }
             break;
-            
+
           case 270:
             block_1_1 = tetrimino.blocks[0];
 
@@ -609,7 +675,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 90;
             }
             break;
-            
+
           case 90:
             block_1_1 = tetrimino.blocks[0];
 
@@ -624,7 +690,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 180;
             }
             break;
-            
+
           case 180:
             block_1_1 = tetrimino.blocks[0];
 
@@ -639,7 +705,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 270;
             }
             break;
-            
+
           case 270:
             block_1_1 = tetrimino.blocks[0];
 
@@ -682,7 +748,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 90;
             }
             break;
-            
+
           case 90:
             block_1_1 = tetrimino.blocks[0];
 
@@ -697,7 +763,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 180;
             }
             break;
-            
+
           case 180:
             block_1_1 = tetrimino.blocks[0];
 
@@ -712,7 +778,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 270;
             }
             break;
-            
+
           case 270:
             block_1_1 = tetrimino.blocks[0];
 
@@ -755,7 +821,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 90;
             }
             break;
-            
+
           case 90:
             block_1_1 = tetrimino.blocks[0];
 
@@ -770,7 +836,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 180;
             }
             break;
-            
+
           case 180:
             block_1_1 = tetrimino.blocks[0];
 
@@ -785,7 +851,7 @@ export default function createGame(height, width) {
               state.tetriminos[tetriminoId].degrees = 270;
             }
             break;
-            
+
           case 270:
             block_1_1 = tetrimino.blocks[0];
 
@@ -801,6 +867,83 @@ export default function createGame(height, width) {
             }
             break;
         }
+      },
+      U: () => {
+        let block_0_0,
+          block_1_0,
+          block_2_0,
+          block_0_1,
+          block_1_1,
+          block_2_1,
+          block_0_2,
+          block_1_2,
+          block_2_2;
+        let newBlocks = [];
+        switch (tetrimino.degrees) {
+          case 0:
+            block_1_0 = tetrimino.blocks[0];
+
+            block_2_0 = createBlock(block_1_0.x, block_1_0.y - 1);
+            block_2_1 = createBlock(block_1_0.x + 1, block_1_0.y - 1);
+            block_0_0 = createBlock(block_1_0.x, block_1_0.y + 1);
+            block_0_1 = createBlock(block_1_0.x + 1, block_1_0.y + 1);
+
+            newBlocks = [block_1_0, block_2_0, block_2_1, block_0_0, block_0_1];
+
+            if (blocksHasValidPosition(newBlocks, tetriminoId)) {
+              state.tetriminos[tetriminoId].blocks = newBlocks;
+              state.tetriminos[tetriminoId].degrees = 90;
+            }
+            break;
+          case 90:
+            block_1_1 = tetrimino.blocks[0];
+
+            block_1_0 = createBlock(block_1_1.x - 1, block_1_1.y);
+            block_0_0 = createBlock(block_1_1.x - 1, block_1_1.y + 1);
+            block_1_2 = createBlock(block_1_1.x + 1, block_1_1.y);
+            block_0_2 = createBlock(block_1_1.x + 1, block_1_1.y + 1);
+
+            newBlocks = [block_1_1, block_1_0, block_0_0, block_1_2, block_0_2];
+
+            if (blocksHasValidPosition(newBlocks, tetriminoId)) {
+              state.tetriminos[tetriminoId].blocks = newBlocks;
+              state.tetriminos[tetriminoId].degrees = 180;
+            }
+            break;
+          case 180:
+            block_1_1 = tetrimino.blocks[0];
+
+            block_2_0 = createBlock(block_1_1.x - 1, block_1_1.y - 1);
+            block_2_1 = createBlock(block_1_1.x, block_1_1.y - 1);
+            block_0_0 = createBlock(block_1_1.x - 1, block_1_1.y + 1);
+            block_0_1 = createBlock(block_1_1.x, block_1_1.y + 1);
+
+            newBlocks = [block_1_1, block_2_0, block_2_1, block_0_0, block_0_1];
+
+            if (blocksHasValidPosition(newBlocks, tetriminoId)) {
+              state.tetriminos[tetriminoId].blocks = newBlocks;
+              state.tetriminos[tetriminoId].degrees = 270;
+            }
+            break;
+          case 270:
+            block_0_1 = tetrimino.blocks[0];
+
+            block_0_0 = createBlock(block_0_1.x - 1, block_0_1.y);
+            block_1_0 = createBlock(block_0_1.x - 1, block_0_1.y - 1);
+            block_0_2 = createBlock(block_0_1.x + 1, block_0_1.y);
+            block_1_2 = createBlock(block_0_1.x + 1, block_0_1.y - 1);
+
+            newBlocks = [block_0_1, block_0_0, block_1_0, block_0_2, block_1_2];
+
+            if (blocksHasValidPosition(newBlocks, tetriminoId)) {
+              state.tetriminos[tetriminoId].blocks = newBlocks;
+              state.tetriminos[tetriminoId].degrees = 0;
+            }
+            break;
+        }
+      },
+      Q: () => {
+        //Rotação do Q não altera nada
       },
     };
 

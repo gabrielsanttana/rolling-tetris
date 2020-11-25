@@ -9,7 +9,7 @@
   </head>
 
   <body>
-    <canvas id="screen" height="20" width="10"></canvas>
+    <canvas id="screen"></canvas>
 
     <script type="module">
       import createGame from './game.js';
@@ -18,7 +18,22 @@
 
       const screen = document.getElementById('screen');
 
-      const game = createGame(20, 10);
+      const board = {
+        small: {
+          height: 20,
+          width: 10
+        },
+        big: {
+          height: 44,
+          width: 22
+        }
+      };
+
+      const game = createGame(board.small.height, board.small.width);
+      let canvas = document.getElementById('screen');
+      canvas.height = board.small.height;
+      canvas.width = board.small.width;
+
       game.start();
 
       const keyboardListener = createKeyboardListener(document);
