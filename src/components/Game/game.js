@@ -1,4 +1,4 @@
-export default function createGame(height, width) {
+export default function createGame(height, width, roundTime) {
   const INITIAL_TIME_ROUND = 500;
   const LIMIT_TIME_ROUND = 100;
   const SPEED_INCREASE_TIME_ROUND = 100;
@@ -16,9 +16,16 @@ export default function createGame(height, width) {
     score: 0,
     is_upsidedown: false,
     total_cleared_lines_count: 0,
+    time: 0,
   };
 
   function start() {
+    setInterval(() => {
+      roundTime = document.getElementById('roundTime');
+
+      roundTime.innerHTML = ++state.time;
+    }, 1000);
+
     addTetrimino(
       state.list_shapes[Math.floor(Math.random() * state.list_shapes.length)],
     );
@@ -31,7 +38,7 @@ export default function createGame(height, width) {
     state.time_round = INITIAL_TIME_ROUND;
   }
 
-  function getLevelDifficulty(){
+  function getLevelDifficulty() {
     return Math.floor(state.score / TIME_ROUND_SCORE_INTERVAL);
   }
 
@@ -56,14 +63,14 @@ export default function createGame(height, width) {
     let allBlocks = [];
     //Create Array with all Blocks
     for (const tetrimino in state.tetriminos) {
-      state.tetriminos[tetrimino].blocks.forEach(block => {
+      state.tetriminos[tetrimino].blocks.forEach((block) => {
         allBlocks.push(block);
       });
     }
 
     //Check if is Game Over
-    let AllBlocksOnArray = allBlocks.map(block => block.x + '-' + block.y);
-    let isDuplicate = AllBlocksOnArray.some(function(item, index) {
+    let AllBlocksOnArray = allBlocks.map((block) => block.x + '-' + block.y);
+    let isDuplicate = AllBlocksOnArray.some(function (item, index) {
       return AllBlocksOnArray.indexOf(item) != index;
     });
     if (isDuplicate) {
@@ -76,13 +83,13 @@ export default function createGame(height, width) {
       state.tetriminos[state.currentTetriminoId].type;
     //Check if there is Lines to Clean
     for (const row of Array(state.height).keys()) {
-      let blockInRow = allBlocks.filter(block => {
+      let blockInRow = allBlocks.filter((block) => {
         if (block.y === row) {
           return true;
         }
         return null;
       });
-      let colInRow = blockInRow.map(block => block.x);
+      let colInRow = blockInRow.map((block) => block.x);
 
       let clearLine = true;
       for (const col of Array(state.width).keys()) {
@@ -126,7 +133,7 @@ export default function createGame(height, width) {
     function clearRow(row) {
       //Clear Row
       for (const tetrimino in state.tetriminos) {
-        let newBlocks = state.tetriminos[tetrimino].blocks.filter(block => {
+        let newBlocks = state.tetriminos[tetrimino].blocks.filter((block) => {
           if (block.y === row) {
             return false;
           }
@@ -141,7 +148,7 @@ export default function createGame(height, width) {
 
       //Move Down Tetriminos blocks that are above the line
       for (const tetrimino in state.tetriminos) {
-        state.tetriminos[tetrimino].blocks.forEach(block => {
+        state.tetriminos[tetrimino].blocks.forEach((block) => {
           if (block.y < row) {
             block.y += 1;
           }
@@ -252,9 +259,7 @@ export default function createGame(height, width) {
 
     if (createShape) {
       createShape();
-      let id = Math.random()
-        .toString(36)
-        .substr(2, 9);
+      let id = Math.random().toString(36).substr(2, 9);
       console.log('Id da nova peça : ' + id);
       state.tetriminos[id] = shape;
 
@@ -394,7 +399,7 @@ export default function createGame(height, width) {
     for (const tetriminoKey in state.tetriminos) {
       if (tetriminoKey !== tetriminoId) {
         const tetrimino = state.tetriminos[tetriminoKey];
-        tetrimino.blocks.forEach(blockTetrimino => {
+        tetrimino.blocks.forEach((blockTetrimino) => {
           blocksNewPosition.forEach((blockNewPosition, index) => {
             if (
               blockTetrimino.y === blockNewPosition.y &&
@@ -412,7 +417,7 @@ export default function createGame(height, width) {
 
   function rotateTetrimino(tetriminoId) {
     const acceptedShapes = {
-      I: tetriminoId => {
+      I: (tetriminoId) => {
         let topBlock,
           middleTopBlock,
           middleBottomBlock,
