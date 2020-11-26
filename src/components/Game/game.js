@@ -5,6 +5,8 @@ export default function createGame(height, width, roundTime) {
   const TIME_ROUND_SCORE_INTERVAL = 300;
   const SCORE_BONUS = 10;
 
+  const observers = [];
+
   const state = {
     tetriminos: {},
     currentTetriminoId: null,
@@ -18,6 +20,16 @@ export default function createGame(height, width, roundTime) {
     total_cleared_lines_count: 0,
     time: 0,
   };
+
+  function subscribe(observerFunction) {
+    observers.push(observerFunction);
+  }
+
+  function notifyAll(command) {
+    observers.forEach(observerFunction => {
+      observerFunction(command);
+    });
+  }
 
   function start() {
     setInterval(() => {
@@ -59,18 +71,27 @@ export default function createGame(height, width, roundTime) {
     window.setTimeout(passRound, state.time_round);
   }
 
+  function handleUpdateStatusGame(status_changed) {
+    const command = {
+      type: 'update-status-game',
+      status_changed,
+    };
+
+    notifyAll(command);
+  }
+
   function checkLines() {
     let allBlocks = [];
     //Create Array with all Blocks
     for (const tetrimino in state.tetriminos) {
-      state.tetriminos[tetrimino].blocks.forEach((block) => {
+      state.tetriminos[tetrimino].blocks.forEach(block => {
         allBlocks.push(block);
       });
     }
 
     //Check if is Game Over
-    let AllBlocksOnArray = allBlocks.map((block) => block.x + '-' + block.y);
-    let isDuplicate = AllBlocksOnArray.some(function (item, index) {
+    let AllBlocksOnArray = allBlocks.map(block => block.x + '-' + block.y);
+    let isDuplicate = AllBlocksOnArray.some(function(item, index) {
       return AllBlocksOnArray.indexOf(item) != index;
     });
     if (isDuplicate) {
@@ -83,13 +104,13 @@ export default function createGame(height, width, roundTime) {
       state.tetriminos[state.currentTetriminoId].type;
     //Check if there is Lines to Clean
     for (const row of Array(state.height).keys()) {
-      let blockInRow = allBlocks.filter((block) => {
+      let blockInRow = allBlocks.filter(block => {
         if (block.y === row) {
           return true;
         }
         return null;
       });
-      let colInRow = blockInRow.map((block) => block.x);
+      let colInRow = blockInRow.map(block => block.x);
 
       let clearLine = true;
       for (const col of Array(state.width).keys()) {
@@ -107,10 +128,16 @@ export default function createGame(height, width, roundTime) {
 
     /*Contagem do total de linhas eliminadas*/
     state.total_cleared_lines_count += cleared_lines_count;
+    if (cleared_lines_count > 0) {
+      handleUpdateStatusGame('total_cleared_lines_count');
+    }
 
     /*Calculo da pontuação do usuario*/
-    state.score += SCORE_BONUS * Math.pow(cleared_lines_count, 2);
-    console.log('Score do Usuario : ' + state.score);
+    let point_scored = SCORE_BONUS * Math.pow(cleared_lines_count, 2);
+    state.score += point_scored;
+    if (point_scored > 0) {
+      handleUpdateStatusGame('score');
+    }
 
     /*Calculo da velocidade/dificuldade do jogo*/
     let new_time_round =
@@ -122,9 +149,11 @@ export default function createGame(height, width, roundTime) {
     } else {
       state.time_round = LIMIT_TIME_ROUND;
     }
+    if (Math.floor(state.score / TIME_ROUND_SCORE_INTERVAL) > 0) {
+      handleUpdateStatusGame('time_round');
+    }
 
     /*Verifica se o bloco é especial e se deve rotacionar o tabuleiro*/
-    console.log(state);
     if (current_tetrimino_type === 'Q' && cleared_lines_count > 0) {
       state.is_upsidedown = !state.is_upsidedown;
       console.log('Virou o tabuleiro');
@@ -133,7 +162,7 @@ export default function createGame(height, width, roundTime) {
     function clearRow(row) {
       //Clear Row
       for (const tetrimino in state.tetriminos) {
-        let newBlocks = state.tetriminos[tetrimino].blocks.filter((block) => {
+        let newBlocks = state.tetriminos[tetrimino].blocks.filter(block => {
           if (block.y === row) {
             return false;
           }
@@ -148,7 +177,7 @@ export default function createGame(height, width, roundTime) {
 
       //Move Down Tetriminos blocks that are above the line
       for (const tetrimino in state.tetriminos) {
-        state.tetriminos[tetrimino].blocks.forEach((block) => {
+        state.tetriminos[tetrimino].blocks.forEach(block => {
           if (block.y < row) {
             block.y += 1;
           }
@@ -259,8 +288,10 @@ export default function createGame(height, width, roundTime) {
 
     if (createShape) {
       createShape();
-      let id = Math.random().toString(36).substr(2, 9);
-      console.log('Id da nova peça : ' + id);
+      let id = Math.random()
+        .toString(36)
+        .substr(2, 9);
+      // console.log('Id da nova peça : ' + id);
       state.tetriminos[id] = shape;
 
       state.currentTetriminoId = id;
@@ -399,7 +430,7 @@ export default function createGame(height, width, roundTime) {
     for (const tetriminoKey in state.tetriminos) {
       if (tetriminoKey !== tetriminoId) {
         const tetrimino = state.tetriminos[tetriminoKey];
-        tetrimino.blocks.forEach((blockTetrimino) => {
+        tetrimino.blocks.forEach(blockTetrimino => {
           blocksNewPosition.forEach((blockNewPosition, index) => {
             if (
               blockTetrimino.y === blockNewPosition.y &&
@@ -417,7 +448,7 @@ export default function createGame(height, width, roundTime) {
 
   function rotateTetrimino(tetriminoId) {
     const acceptedShapes = {
-      I: (tetriminoId) => {
+      I: tetriminoId => {
         let topBlock,
           middleTopBlock,
           middleBottomBlock,
@@ -966,5 +997,6 @@ export default function createGame(height, width, roundTime) {
     addTetrimino,
     moveDown,
     moveTetrimino,
+    subscribe,
   };
 }

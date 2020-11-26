@@ -10,4 +10,6 @@ game.start();
 const keyboardListener = createKeyboardListener(document);
 keyboardListener.subscribe(game.MoveTetrimino);
 
-renderScreen(screen, game, requestAnimationFrame);
+const renderScreen = createRenderScreen(screen, game, requestAnimationFrame);
+
+game.subscribe(renderScreen.updateGameStatus);
