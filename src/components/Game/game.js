@@ -3,23 +3,34 @@ export default function createGame(height, width, roundTime) {
   const LIMIT_TIME_ROUND = 100;
   const SPEED_INCREASE_TIME_ROUND = 100;
   const TIME_ROUND_SCORE_INTERVAL = 300;
-  const SCORE_BONUS = 10;
+  const SCORE_BONUS = 300;
 
   const observers = [];
 
   const state = {
+    hasGameStarted: false,
     tetriminos: {},
     currentTetriminoId: null,
     height: height,
     width: width,
     time_round: INITIAL_TIME_ROUND,
-    // list_shapes: ['I', 'O', 'T', 'J', 'L', 'Q', 'U'],
-    list_shapes: ['I'],
+    list_shapes: ['I', 'O', 'T', 'J', 'L', 'Q', 'U'],
     score: 0,
     is_upsidedown: false,
     total_cleared_lines_count: 0,
     time: 0,
   };
+
+  let gameTimer;
+
+  const startGameTimer = () => {
+    gameTimer = setInterval(() => {
+      ++state.time;
+      handleUpdateStatusGame('time');
+    }, 1000);
+  };
+
+  const stopGameTimer = () => clearInterval(gameTimer);
 
   function subscribe(observerFunction) {
     observers.push(observerFunction);
@@ -32,25 +43,52 @@ export default function createGame(height, width, roundTime) {
   }
 
   function start() {
-    setInterval(() => {
-      ++state.time;
-      handleUpdateStatusGame('time');
-    }, 1000);
+    if (!state.hasGameStarted) {
+      startGameTimer();
 
-    addTetrimino(
-      state.list_shapes[Math.floor(Math.random() * state.list_shapes.length)],
-    );
-    window.setTimeout(passRound, state.time_round);
+      addTetrimino(
+        state.list_shapes[Math.floor(Math.random() * state.list_shapes.length)],
+      );
+      window.setTimeout(passRound, state.time_round);
+      state.hasGameStarted = true;
+    } else {
+      endGame();
+    }
   }
 
-  function restart() {
+  function endGame() {
     state.tetriminos = {};
     state.currentTetriminoId = null;
     state.time_round = INITIAL_TIME_ROUND;
+    state.score = 0;
+    state.is_upsidedown = false;
+    state.total_cleared_lines_count = 0;
+    state.time = 0;
+    state.hasGameStarted = false;
+
+    handleUpdateStatusGame('restartGameState');
+    stopGameTimer();
   }
 
   function getLevelDifficulty() {
-    return Math.floor(state.score / TIME_ROUND_SCORE_INTERVAL);
+    const levelDifficulty = Math.floor(state.score / TIME_ROUND_SCORE_INTERVAL);
+
+    switch (levelDifficulty) {
+      case 0:
+        return 'Fácil';
+
+      case 1:
+        return 'Média';
+
+      case 2:
+        return 'Difícil';
+
+      case 3:
+        return 'Extrema';
+
+      default:
+        return 'Insana';
+    }
   }
 
   function passRound() {
@@ -60,14 +98,26 @@ export default function createGame(height, width, roundTime) {
       if (!moved) {
         checkLines();
 
-        addTetrimino(
-          state.list_shapes[
-            Math.floor(Math.random() * state.list_shapes.length)
-          ],
-        );
+        if (state.hasGameStarted) {
+          const addedTetriminoId = addTetrimino(
+            state.list_shapes[
+              Math.floor(Math.random() * state.list_shapes.length)
+            ],
+          );
+
+          if (!addedTetriminoId) {
+            alert('GAME OVER');
+            endGame();
+
+            return;
+          }
+        }
       }
     }
-    window.setTimeout(passRound, state.time_round);
+
+    if (state.hasGameStarted) {
+      window.setTimeout(passRound, state.time_round);
+    }
   }
 
   function handleUpdateStatusGame(status_changed) {
@@ -88,16 +138,6 @@ export default function createGame(height, width, roundTime) {
       });
     }
 
-    //Check if is Game Over
-    let AllBlocksOnArray = allBlocks.map((block) => block.x + '-' + block.y);
-    let isDuplicate = AllBlocksOnArray.some(function (item, index) {
-      return AllBlocksOnArray.indexOf(item) != index;
-    });
-    if (isDuplicate) {
-      alert('GAME OVER');
-      restart();
-    }
-
     let cleared_lines_count = 0;
     let current_tetrimino_type =
       state.tetriminos[state.currentTetriminoId].type;
@@ -113,13 +153,11 @@ export default function createGame(height, width, roundTime) {
 
       let clearLine = true;
       for (const col of Array(state.width).keys()) {
-        // console.log(colInRow.indexOf(col))
         if (colInRow.indexOf(col) === -1) {
           clearLine = false;
         }
       }
       if (clearLine) {
-        console.log('Limpar a Linha : ' + row);
         clearRow(row);
         cleared_lines_count++;
       }
@@ -155,7 +193,6 @@ export default function createGame(height, width, roundTime) {
     /*Verifica se o bloco é especial e se deve rotacionar o tabuleiro*/
     if (current_tetrimino_type === 'Q' && cleared_lines_count > 0) {
       state.is_upsidedown = !state.is_upsidedown;
-      console.log('Virou o tabuleiro');
     }
 
     function clearRow(row) {
@@ -288,10 +325,41 @@ export default function createGame(height, width, roundTime) {
     if (createShape) {
       createShape();
       let id = Math.random().toString(36).substr(2, 9);
-      // console.log('Id da nova peça : ' + id);
-      state.tetriminos[id] = shape;
 
-      state.currentTetriminoId = id;
+      const isDuplicate = () => {
+        let allBlocks = [];
+
+        let stateTetriminosMock = Object.assign({}, state.tetriminos);
+
+        stateTetriminosMock[id] = shape;
+
+        for (const tetrimino in stateTetriminosMock) {
+          stateTetriminosMock[tetrimino].blocks.forEach((block) => {
+            allBlocks.push(block);
+          });
+        }
+
+        let AllBlocksOnArray = allBlocks.map(
+          (block) => block.x + '-' + block.y,
+        );
+        let isDuplicate = AllBlocksOnArray.some(function (item, index) {
+          return (
+            AllBlocksOnArray.filter((element) => element === item).length > 1
+          );
+        });
+
+        return isDuplicate;
+      };
+
+      if (isDuplicate()) {
+        return null;
+      } else {
+        state.tetriminos[id] = shape;
+
+        state.currentTetriminoId = id;
+
+        return id;
+      }
     }
   }
 
@@ -995,5 +1063,6 @@ export default function createGame(height, width, roundTime) {
     moveDown,
     moveTetrimino,
     subscribe,
+    getLevelDifficulty,
   };
 }

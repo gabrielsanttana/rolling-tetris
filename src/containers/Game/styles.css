@@ -57,14 +57,48 @@ body > main {
   color: #3c405f;
 }
 
+#gameSection footer {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#gameSection footer button {
+  width: 200px;
+  height: 42px;
+  margin-top: 10px;
+  border: 0;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  background-color: #3c405f;
+  transition: filter 0.4s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#gameSection footer button:hover {
+  filter: brightness(70%);
+}
+
 .gameContainer {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.gameContainer img {
+.gameContainer canvas {
   margin-top: 20px;
+  border: 7px solid black;
+  height: 400px;
+  width: 200px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;
 }
 
 #tableSection {

@@ -27,18 +27,22 @@
     <main>
       <section id="gameSection">
         <header>
-          <div><strong>Tempo de partida: </strong><span>2m</span></div>
+          <div><strong>Tempo de partida: </strong><span id="gameTime">0s</span></div>
 
-          <div><strong>Pontuação: </strong><span>300</span></div>
+          <div><strong>Pontuação: </strong><span id="currentScore">0</span></div>
 
-          <div><strong>Linhas eliminadas: </strong><span>50</span></div>
+          <div><strong>Linhas eliminadas: </strong><span id="clearedLines">0</span></div>
 
-          <div><strong>Dificuldade: </strong><span>Média</span></div>
+          <div><strong>Dificuldade: </strong><span id="difficulty">Fácil</span></div>
         </header>
 
         <div class="gameContainer">
-          <img src="../../images/tetris.png" alt="Tetris" />
+          <canvas id="screen"></canvas>
         </div>
+
+        <footer>
+          <button type="button" id="startGameButton">Iniciar</button>
+        </footer>
       </section>
 
       <section id="tableSection">
@@ -73,7 +77,59 @@
             </tr>
           </tbody>
         </table>
+
+        
       </section>
     </main>
+
+    <script type="module">
+      import createGame from '../../components/Game/game.js';
+      import createKeyboardListener from '../../components/Game/keyboardListener.js';
+      import createRenderScreen from '../../components/Game/renderScreen.js';
+
+      const screen = document.getElementById('screen');
+      const gameTime = document.getElementById('gameTime');
+      const currentScore = document.getElementById('currentScore');
+      const clearedLines = document.getElementById('clearedLines');
+      const difficulty = document.getElementById('difficulty');
+
+      const board = {
+        small: {
+          height: 20,
+          width: 10
+        },
+        big: {
+          height: 44,
+          width: 22
+        }
+      };
+
+      const game = createGame(board.small.height, board.small.width);
+      let canvas = document.getElementById('screen');
+      canvas.height = board.small.height;
+      canvas.width = board.small.width;
+
+      const keyboardListener = createKeyboardListener(document);
+      keyboardListener.subscribe(game.moveTetrimino);
+
+      
+
+      const renderScreen = createRenderScreen(
+        screen,
+        game,
+        requestAnimationFrame,
+        currentScore,
+        clearedLines,
+        difficulty,
+        gameTime,
+      );
+
+      game.subscribe(renderScreen.updateGameStatus);
+
+      const startGameButton = document.getElementById("startGameButton");
+      startGameButton.addEventListener('click', () => {
+        game.start();
+      });
+    </script>
   </body>
 </html>
