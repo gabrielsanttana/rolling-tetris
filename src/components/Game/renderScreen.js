@@ -6,13 +6,15 @@ export default function createRenderScreen(
   clearedLines,
   difficulty,
   gameTime,
+  boardSizeChooser,
+  startGameButton,
 ) {
   const context = screen.getContext('2d');
   context.fillStyle = 'white';
   context.clearRect(0, 0, game.state.width, game.state.height);
 
   for (const tetriminoId in game.state.tetriminos) {
-    game.state.tetriminos[tetriminoId].blocks.forEach((block) => {
+    game.state.tetriminos[tetriminoId].blocks.forEach(block => {
       context.fillStyle = game.state.tetriminos[tetriminoId].color;
       context.fillRect(block.x, block.y, 1, 1);
     });
@@ -22,6 +24,12 @@ export default function createRenderScreen(
     screen.style = 'transform: rotate(180deg)';
   } else {
     screen.style = 'transform: rotate(0deg)';
+  }
+
+  if (game.state.hasGameStarted) {
+    boardSizeChooser.hidden = true;
+  } else {
+    boardSizeChooser.hidden = false;
   }
 
   function updateGameStatus(command) {
@@ -46,6 +54,10 @@ export default function createRenderScreen(
           clearedLines.innerHTML = game.state.total_cleared_lines_count;
           difficulty.innerHTML = game.getLevelDifficulty();
           gameTime.innerHTML = `${game.state.time}s`;
+          startGameButton.innerHTML = 'Iniciar';
+          break;
+        case 'startGame':
+          startGameButton.innerHTML = 'Encerrar';
           break;
       }
     }
@@ -60,6 +72,8 @@ export default function createRenderScreen(
       clearedLines,
       difficulty,
       gameTime,
+      boardSizeChooser,
+      startGameButton,
     );
   });
 

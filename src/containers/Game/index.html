@@ -16,7 +16,9 @@
       <h1>Rolling Tetris</h1>
 
       <nav>
-        <div class="nav-item"><a href="../Edit/index.html">Editar perfil</a></div>
+        <div class="nav-item">
+          <a href="../Edit/index.html">Editar perfil</a>
+        </div>
         <div class="nav-item">
           <a href="../Ranking/index.html">Ranking global</a>
         </div>
@@ -27,14 +29,35 @@
     <main>
       <section id="gameSection">
         <header>
-          <div><strong>Tempo de partida: </strong><span id="gameTime">0s</span></div>
+          <div>
+            <strong>Tempo de partida: </strong><span id="gameTime">0s</span>
+          </div>
 
-          <div><strong>Pontuação: </strong><span id="currentScore">0</span></div>
+          <div>
+            <strong>Pontuação: </strong><span id="currentScore">0</span>
+          </div>
 
-          <div><strong>Linhas eliminadas: </strong><span id="clearedLines">0</span></div>
+          <div>
+            <strong>Linhas eliminadas: </strong><span id="clearedLines">0</span>
+          </div>
 
-          <div><strong>Dificuldade: </strong><span id="difficulty">Fácil</span></div>
+          <div>
+            <strong>Dificuldade: </strong><span id="difficulty">Fácil</span>
+          </div>
         </header>
+
+        <div id="boardSizeChooser">
+          <input
+            type="radio"
+            id="smallBoard"
+            name="boardSize"
+            value="small"
+            checked
+          />
+          <label for="small">Pequeno</label><br />
+          <input type="radio" id="bigBoard" name="boardSize" value="big" />
+          <label for="small">Grande</label><br />
+        </div>
 
         <div class="gameContainer">
           <canvas id="screen"></canvas>
@@ -77,8 +100,6 @@
             </tr>
           </tbody>
         </table>
-
-        
       </section>
     </main>
 
@@ -92,6 +113,12 @@
       const currentScore = document.getElementById('currentScore');
       const clearedLines = document.getElementById('clearedLines');
       const difficulty = document.getElementById('difficulty');
+
+      const smallBoardRadio = document.getElementById('smallBoard');
+      const bigBoardRadio = document.getElementById('bigBoard');
+      const boardSizeChooser = document.getElementById('boardSizeChooser');
+
+      const startGameButton = document.getElementById('startGameButton');
 
       const board = {
         small: {
@@ -112,8 +139,6 @@
       const keyboardListener = createKeyboardListener(document);
       keyboardListener.subscribe(game.moveTetrimino);
 
-      
-
       const renderScreen = createRenderScreen(
         screen,
         game,
@@ -122,13 +147,31 @@
         clearedLines,
         difficulty,
         gameTime,
+        boardSizeChooser,
+        startGameButton
       );
 
       game.subscribe(renderScreen.updateGameStatus);
 
-      const startGameButton = document.getElementById("startGameButton");
       startGameButton.addEventListener('click', () => {
         game.start();
+      });
+
+      smallBoardRadio.addEventListener('click', () => {
+        console.log('evento small');
+        canvas.classList.remove('bigBoard');
+        canvas.classList.add('smallBoard');
+        canvas.height = board.small.height;
+        canvas.width = board.small.width;
+        game.setBoardSize(board.small.height, board.small.width);
+      });
+      bigBoardRadio.addEventListener('click', () => {
+        console.log('evento big');
+        canvas.classList.remove('smallBoard');
+        canvas.classList.add('bigBoard');
+        canvas.height = board.big.height;
+        canvas.width = board.big.width;
+        game.setBoardSize(board.big.height, board.big.width);
       });
     </script>
   </body>
