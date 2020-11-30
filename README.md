@@ -1,18 +1,31 @@
-# <div align="center">Rolling Tetris</div>
+<div align="center">
+  <h1>🧱 Rolling Tetris</h1>
+</div>
 
-###
+<div align="center">
+  <img src="./.github/rolling-tetris.png">
+</div>
 
-<p align="center">:construction: Under construction :construction:</p>
+#####
 
-###
+<p align="center">An instance of the game Tetris built with JavaScript</p>
 
-<p align="left"> Para rodar o projeto é necessario um servidor http </p>
+## 🛠️ Technologies
 
-<p align="left"> Servidor HTTP simples em Python3 : python -m http.server 8000</p>
-<p align="left"> Servidor HTTP simples em Python2 : python -m SimpleHTTPServer 8000</p>
+<ul>
+  <li><a href="https://www.javascript.com/">JavaScript</a></li>
+</ul>
 
-###
+## ⚙️ Requirements
 
-<p align="left"> Sites úteis para o desenvolvimento do projeto : </p>
-<p align="left"> Sites explicando o tetris e sua peças : https://tetris.wiki/Tetromino#:~:text=The%20seven%20one%2Dsided%20tetrominoes,previously%20called%20tetraminoes%20around%201999. </p>
-<p align="left"> Imagem exemplificando a rotação de um tetromino : https://i.stack.imgur.com/q0WyH.png </p>
+<ul>
+  <li><a href="https://git-scm.com/">Git</a></li>
+</ul>
+
+## 🚀 Installation
+
+```bash
+$ git clone https://github.com/gabrielsanttana/rolling-tetris
+```
+
+To run the game, it's necessary to have a HTTP server to be able to open the `index.html` file.
