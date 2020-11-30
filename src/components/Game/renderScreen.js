@@ -50,7 +50,15 @@ export default function createRenderScreen(
           break;
 
         case 'time':
-          gameTime.innerHTML = `${game.state.time}s`;
+          if (game.state.time <= 60) {
+            gameTime.innerHTML = `${game.state.time}s`;
+          } else  if (game.state.time <= 60 * 60) {
+            gameTime.innerHTML = `${Math.round(game.state.time / 60)}m`;
+          } else  if (game.state.time <= 60 * 60 * 24) {
+            gameTime.innerHTML = `${Math.round(game.state.time / 60 / 60)}h`;
+          } else {
+            gameTime.innerHTML = `${Math.round(game.state.time / 60 / 60 / 24)}d`;
+          }
           break;
 
         case 'restartGameState':
