@@ -1,4 +1,4 @@
-header {
+body > header {
   width: 100%;
   padding: 10px 60px;
   display: flex;
@@ -36,6 +36,7 @@ body > main {
   max-width: 1300px;
   margin: 40px auto 0;
   display: flex;
+  flex-direction: column;
 }
 
 #gameSection {
@@ -43,18 +44,40 @@ body > main {
   background-color: #f2f2f2;
 }
 
-#gameSection header {
+#gameSection header > div {
   width: 100%;
   background-color: #f2f2f2;
   padding: 10px;
+  display: flex;
+  justify-content: center;
 }
 
-#gameSection header > div {
+#gameSection header > div > div {
   border: 1px solid #3c405f;
   border-radius: 4px;
   margin-right: 10px;
   padding: 8px;
   color: #3c405f;
+  font-size: 18px;
+}
+
+#gameSection #boardSizeChooser {
+  margin-top: 20px;
+  padding-left: 20px;
+}
+
+#gameSection #boardSizeChooser .inputRadioBlock {
+  margin: 0 5px 10px 5px;
+}
+
+#gameSection #boardSizeChooser .inputRadioBlock input {
+  margin-right: 5px;
+}
+
+#gameSection #boardSizeChooser .inputRadioBlock label {
+  color: #3c405f;
+  font-weight: bold;
+  font-size: 18px;
 }
 
 #gameSection footer {
@@ -70,7 +93,7 @@ body > main {
   margin-top: 10px;
   border: 0;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   color: #fff;
   cursor: pointer;
@@ -109,15 +132,12 @@ body > main {
   width: 300px;
 }
 
-#tableSection {
-  margin-left: 20px;
-}
-
 #tableSection table {
   box-shadow: 10px 6px 6px rgba(0, 0, 0, 0.1);
   border-collapse: collapse;
   border-radius: 8px;
-  margin-bottom: 30px;
+  margin: 30px 0;
+  width: 100%;
 }
 
 #tableSection table thead {

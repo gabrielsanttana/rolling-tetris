@@ -14,7 +14,7 @@ export default function createRenderScreen(
   context.clearRect(0, 0, game.state.width, game.state.height);
 
   for (const tetriminoId in game.state.tetriminos) {
-    game.state.tetriminos[tetriminoId].blocks.forEach(block => {
+    game.state.tetriminos[tetriminoId].blocks.forEach((block) => {
       context.fillStyle = game.state.tetriminos[tetriminoId].color;
       context.fillRect(block.x, block.y, 1, 1);
     });
@@ -40,15 +40,19 @@ export default function createRenderScreen(
         case 'score':
           currentScore.innerHTML = game.state.score;
           break;
+
         case 'total_cleared_lines_count':
           clearedLines.innerHTML = game.state.total_cleared_lines_count;
           break;
+
         case 'time_round':
           difficulty.innerHTML = game.getLevelDifficulty();
           break;
+
         case 'time':
           gameTime.innerHTML = `${game.state.time}s`;
           break;
+
         case 'restartGameState':
           currentScore.innerHTML = game.state.score;
           clearedLines.innerHTML = game.state.total_cleared_lines_count;
@@ -56,6 +60,7 @@ export default function createRenderScreen(
           gameTime.innerHTML = `${game.state.time}s`;
           startGameButton.innerHTML = 'Iniciar';
           break;
+
         case 'startGame':
           startGameButton.innerHTML = 'Encerrar';
           break;
