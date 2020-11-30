@@ -52,12 +52,14 @@ export default function createRenderScreen(
         case 'time':
           if (game.state.time <= 60) {
             gameTime.innerHTML = `${game.state.time}s`;
-          } else  if (game.state.time <= 60 * 60) {
-            gameTime.innerHTML = `${Math.round(game.state.time / 60)}m`;
-          } else  if (game.state.time <= 60 * 60 * 24) {
-            gameTime.innerHTML = `${Math.round(game.state.time / 60 / 60)}h`;
+          } else if (game.state.time <= 60 * 60) {
+            gameTime.innerHTML = `${Math.round(game.state.time / 60)}min`;
+          } else if (game.state.time <= 60 * 60 * 24) {
+            gameTime.innerHTML = `${Math.round(game.state.time / 60 / 60)}hr  `;
           } else {
-            gameTime.innerHTML = `${Math.round(game.state.time / 60 / 60 / 24)}d`;
+            gameTime.innerHTML = `${Math.round(
+              game.state.time / 60 / 60 / 24,
+            )}d`;
           }
           break;
 
