@@ -44,9 +44,7 @@ export default function createGame(height, width) {
 
   function setBoardSize(height, width) {
     state.height = height;
-    screen.height = height;
     state.width = width;
-    screen.width = width;
   }
 
   function start() {

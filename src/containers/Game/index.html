@@ -130,12 +130,12 @@
       const board = {
         small: {
           height: 20,
-          width: 10,
+          width: 10
         },
         big: {
           height: 44,
-          width: 22,
-        },
+          width: 22
+        }
       };
 
       const game = createGame(board.small.height, board.small.width);
@@ -166,11 +166,15 @@
       smallBoardRadio.addEventListener('click', () => {
         canvas.classList.remove('bigBoard');
         canvas.classList.add('smallBoard');
+        canvas.height = board.small.height;
+        canvas.width = board.small.width;
         game.setBoardSize(board.small.height, board.small.width);
       });
       bigBoardRadio.addEventListener('click', () => {
         canvas.classList.remove('smallBoard');
         canvas.classList.add('bigBoard');
+        canvas.height = board.big.height;
+        canvas.width = board.big.width;
         game.setBoardSize(board.big.height, board.big.width);
       });
     </script>
