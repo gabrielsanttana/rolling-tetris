@@ -139,9 +139,8 @@
       };
 
       const game = createGame(board.small.height, board.small.width);
-      let canvas = document.getElementById('screen');
-      canvas.height = board.small.height;
-      canvas.width = board.small.width;
+      screen.height = board.small.height;
+      screen.width = board.small.width;
 
       const keyboardListener = createKeyboardListener(document);
       keyboardListener.subscribe(game.moveTetrimino);
@@ -164,17 +163,17 @@
         game.start();
       });
       smallBoardRadio.addEventListener('click', () => {
-        canvas.classList.remove('bigBoard');
-        canvas.classList.add('smallBoard');
-        canvas.height = board.small.height;
-        canvas.width = board.small.width;
+        screen.classList.remove('bigBoard');
+        screen.classList.add('smallBoard');
+        screen.height = board.small.height;
+        screen.width = board.small.width;
         game.setBoardSize(board.small.height, board.small.width);
       });
       bigBoardRadio.addEventListener('click', () => {
-        canvas.classList.remove('smallBoard');
-        canvas.classList.add('bigBoard');
-        canvas.height = board.big.height;
-        canvas.width = board.big.width;
+        screen.classList.remove('smallBoard');
+        screen.classList.add('bigBoard');
+        screen.height = board.big.height;
+        screen.width = board.big.width;
         game.setBoardSize(board.big.height, board.big.width);
       });
     </script>
