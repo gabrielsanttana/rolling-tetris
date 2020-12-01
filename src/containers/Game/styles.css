@@ -80,6 +80,13 @@ body > main {
   font-size: 18px;
 }
 
+#gameSection #boardSizeChooser p {
+  padding: 20px 0 0 5px;
+  color: #3c405f;
+  font-weight: bold;
+  font-size: 18px;
+}
+
 #gameSection footer {
   margin-top: 20px;
   width: 100%;
