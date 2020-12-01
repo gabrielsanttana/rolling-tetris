@@ -28,4 +28,4 @@
 $ git clone https://github.com/gabrielsanttana/rolling-tetris
 ```
 
-To run the game, it's necessary to have a HTTP server to be able to open the `index.html` file.
+To run the game, it's necessary to have a HTTP server to be able to open the `containers/Game/index.html` file.
