@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,37 +9,29 @@
   </head>
 
   <body>
-    <section class="editWrapper">
-      <form action="../Game/index.html">
+    <section class="registerWrapper">
+      <form action="../../services/api.php" method="POST">
+        <input id="method" name="method" type="text" hidden value="registerPlayer"/>
+
         <label for="name">Nome completo</label>
         <input
           type="text"
           name="name"
           id="name"
           placeholder="Digite seu nome completo"
-          value="Gabriel Gomes de Santana"
           autofocus
         />
 
         <label for="birthdate">Data de nascimento</label>
         <input
-          type="text"
+          type="date"
           name="birthdate"
           id="birthdate"
           placeholder="Digite sua data de nascimento"
-          value="10/10/1970"
-          disabled
         />
 
         <label for="cpf">CPF</label>
-        <input
-          type="text"
-          name="cpf"
-          id="cpf"
-          placeholder="Digite seu CPF"
-          value="senha123"
-          disabled
-        />
+        <input type="text" name="cpf" id="cpf" placeholder="Digite sua senha" />
 
         <label for="phoneNumber">Telefone</label>
         <input
@@ -47,7 +39,6 @@
           name="phoneNumber"
           id="phoneNumber"
           placeholder="Digite seu telefone"
-          value="199956565656"
         />
 
         <label for="email">E-mail</label>
@@ -56,7 +47,6 @@
           name="email"
           id="email"
           placeholder="Digite seu e-mail"
-          value="eu@eu.com"
         />
 
         <label for="username">Nome de usuário</label>
@@ -65,8 +55,6 @@
           name="username"
           id="username"
           placeholder="Digite seu nome de usuário"
-          value="euzinho"
-          disabled
         />
 
         <label for="password">Senha</label>
@@ -74,20 +62,10 @@
           type="password"
           name="password"
           id="password"
-          placeholder="Digite nova senha (deixe em branco para não mudar)"
-          value=""
+          placeholder="Digite sua senha"
         />
 
-        <label for="password">Confimar senha</label>
-        <input
-          type="password"
-          name="passwordConfirmation"
-          id="passwordConfirmation"
-          placeholder="Digite sua senha para confirmar a edição"
-          value=""
-        />
-
-        <button type="submit">Editar informações</button>
+        <button type="submit" value="registerPlayer">Cadastrar</button>
       </form>
     </section>
   </body>
