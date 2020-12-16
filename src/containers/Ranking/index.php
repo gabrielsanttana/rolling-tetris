@@ -1,3 +1,6 @@
+<?php
+  require '../../services/authent.php';
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -16,11 +19,11 @@
       <h1>Rolling Tetris</h1>
 
       <nav>
-        <div class="nav-item"><a href="../Register/index.html">Editar perfil</a></div>
+        <div class="nav-item"><a href="../Register/index.php">Editar perfil</a></div>
         <div class="nav-item">
-          <a href="../Game/index.html">Game</a>
+          <a href="../Game/index.php">Game</a>
         </div>
-        <div class="nav-item"><a href="../Login/index.html">Sair</a></div>
+        <div class="nav-item"><a href="../../services/logout.php">Sair</a></div>
       </nav>
     </header>
 

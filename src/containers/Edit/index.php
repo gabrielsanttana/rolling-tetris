@@ -1,3 +1,6 @@
+<?php
+  require '../../services/authent.php';
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -16,17 +19,17 @@
 
       <nav>
         <div class="nav-item">
-          <a href="../Edit/index.html">Editar perfil</a>
+          <a href="../Edit/index.php">Editar perfil</a>
         </div>
         <div class="nav-item">
-          <a href="../Ranking/index.html">Ranking global</a>
+          <a href="../Ranking/index.php">Ranking global</a>
         </div>
-        <div class="nav-item"><a href="../Login/index.html">Sair</a></div>
+        <div class="nav-item"><a href="../../services/logout.php">Sair</a></div>
       </nav>
     </header>
 
     <section class="editWrapper">
-      <form action="../Game/index.html">
+      <form action="../Game/index.php">
         <label for="name">Nome completo</label>
         <input
           type="text"

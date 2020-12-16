@@ -34,7 +34,7 @@
         <button type="submit">Entrar</button>
 
         <div class="registerContainer">
-          <a href="../Register/index.html">Quero me cadastrar</a>
+          <a href="../Register/index.php">Quero me cadastrar</a>
         </div>
       </form>
     </section>

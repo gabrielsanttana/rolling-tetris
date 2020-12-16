@@ -1,5 +1,6 @@
 <?php
     require 'db_connection.php';
+    session_start();
 
 
 
@@ -20,8 +21,8 @@
 
             foreach($fieldsRequired as $field){
                 if(!$_POST[$field]){
-                    //Retornar erro pro cadastro
-                    redirectToLogin();
+                    //Retornar erro de campo não preenchido pro cadastro
+                    header('Location: ../containers/Login/index.php');
                 }
             }
 
@@ -29,15 +30,28 @@
                 '{$_POST['name']}','{$_POST['birthdate']}','{$_POST['cpf']}','{$_POST['phoneNumber']}','{$_POST['email']}','{$_POST['username']}','{$_POST['password']}')";
             
 
-            $databaseConnection->executeQuerySql($query);
+            $insertId= $databaseConnection->executeInsertSql($query);
+
+            
+            
+            if($insertId != null){
+                //Success
+                $_SESSION['userId'] = $insertId;
+                echo $insertId;
+                header('Location: ../containers/Game/index.php');
+            }else{
+                //Retornar erro ae na hora de cadastrar
+                header('Location: ../containers/Login/index.php');
+            }
+
         break;
         case 'login':
             $fieldsRequired = array("user","password");
 
             foreach($fieldsRequired as $field){
                 if(!$_POST[$field]){
-                    //Retornar erro pro login
-                    redirectToLogin();
+                    //Retornar erro de campo não preenchido pro login
+                    header('Location: ../containers/Login/index.php');
                 }
             }
 
@@ -49,22 +63,19 @@
 
             if($result->rowCount() != 0){
                 $result_array = $result->fetchAll();
-                echo 'Id do usuario : '.$result_array[0]['id'];
+                $_SESSION['userId'] = $result_array[0]['id'];
+                header('Location: ../containers/Game/index.php');
             }else{
                 //Login errado
-                redirectToLogin();
+                header('Location: ../containers/Login/index.php');
             }
 
         break;
         default:
-            redirectToLogin();
+            header('Location: ../containers/Login/index.php');
         break;
     }
 
-
-    function redirectToLogin(){
-        header('Location: ../containers/Login/index.php');
-    }
 
 
 

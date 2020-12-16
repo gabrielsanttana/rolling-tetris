@@ -31,7 +31,7 @@
         />
 
         <label for="cpf">CPF</label>
-        <input type="text" name="cpf" id="cpf" placeholder="Digite sua senha" />
+        <input type="text" name="cpf" id="cpf" placeholder="Digite seu CPF" />
 
         <label for="phoneNumber">Telefone</label>
         <input
