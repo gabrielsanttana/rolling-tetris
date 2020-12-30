@@ -63,6 +63,7 @@ export default function createGame(height, width) {
   }
 
   function endGame() {
+    saveGameLog();
     state.tetriminos = {};
     state.currentTetriminoId = null;
     state.time_round = INITIAL_TIME_ROUND;
@@ -76,8 +77,30 @@ export default function createGame(height, width) {
     stopGameTimer();
   }
 
+  function saveGameLog(){
+
+    let xhttp = new XMLHttpRequest();
+
+    let url = '../../services/api.php';
+    
+    let params = 'game_time_seconds='+state.time;
+    params += '&score='+state.score;
+    params += '&cleared_lines='+state.total_cleared_lines_count;
+    params += '&difficulty='+getLevelDifficultyNumber();
+    params += '&method=registerGameLog';
+
+    xhttp.open('POST', url, true);
+    xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+    xhttp.send(params);
+  }
+
+  function getLevelDifficultyNumber(){
+    return  Math.floor(state.score / TIME_ROUND_SCORE_INTERVAL);
+  }
+
   function getLevelDifficulty() {
-    const levelDifficulty = Math.floor(state.score / TIME_ROUND_SCORE_INTERVAL);
+    const levelDifficulty = getLevelDifficultyNumber();
 
     switch (levelDifficulty) {
       case 0:

@@ -2,6 +2,8 @@
     require_once 'db_connection.php';
     require_once 'dao/PlayerDAO.php';
     require_once 'models/Player.php';
+    require_once 'dao/GameLogDAO.php';
+    require_once 'models/GameLog.php';
     session_start();
 
 
@@ -60,7 +62,21 @@
             }
 
         break;
-        case 'registerGame':
+        case 'registerGameLog':
+            $fieldsRequired = array("game_time_seconds", "score", "cleared_lines", "difficulty");
+
+            foreach($fieldsRequired as $field){
+                if(!$_POST[$field]){
+                    //Retornar erro de campo não preenchido pro login
+                    header('Location: ../containers/Login/index.php');
+                }
+            }
+
+            $player = unserialize($_SESSION['user']);
+            $user_id = $player->getId();
+
+            $gameLog = GameLogDAO::createGameLog($_POST['game_time_seconds'], $_POST['score'], $_POST['cleared_lines'], $_POST['difficulty'], $user_id);
+
             break;
         default:
             header('Location: ../containers/Login/index.php');
