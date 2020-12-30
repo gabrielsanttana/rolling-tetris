@@ -1,5 +1,7 @@
 <?php
-    require 'db_connection.php';
+    require_once 'db_connection.php';
+    require_once 'dao/PlayerDAO.php';
+    require_once 'models/Player.php';
     session_start();
 
 
@@ -11,7 +13,6 @@
     $method = $_POST['method'];
 
     
-    $databaseConnection = new DatabaseConnection();
 
     switch($method ){
         case 'registerPlayer':
@@ -26,18 +27,11 @@
                 }
             }
 
-            $query = "insert into player(name,birthdate,cpf,phoneNumber,email,username,password) values (
-                '{$_POST['name']}','{$_POST['birthdate']}','{$_POST['cpf']}','{$_POST['phoneNumber']}','{$_POST['email']}','{$_POST['username']}','{$_POST['password']}')";
-            
-
-            $insertId= $databaseConnection->executeInsertSql($query);
-
-            
-            
-            if($insertId != null){
-                //Success
-                $_SESSION['userId'] = $insertId;
-                echo $insertId;
+            $player = PlayerDAO::createPlayer($_POST['name'], $_POST['birthdate'], $_POST['cpf'], $_POST['phoneNumber'], $_POST['email'], $_POST['username'], $_POST['password']);
+        
+        
+            if($player != null){
+                $_SESSION['user'] = serialize($player);
                 header('Location: ../containers/Game/index.php');
             }else{
                 //Retornar erro ae na hora de cadastrar
@@ -55,15 +49,10 @@
                 }
             }
 
-            $query = "select id from player 
-            where username = '{$_POST['user']}' and password = '{$_POST['password']}';";
-            
+            $player = PlayerDAO::loginPlayer($_POST['user'], $_POST['password']);
 
-            $result = $databaseConnection->executeQuerySql($query);
-
-            if($result->rowCount() != 0){
-                $result_array = $result->fetchAll();
-                $_SESSION['userId'] = $result_array[0]['id'];
+            if($player != null){
+                $_SESSION['user'] = serialize($player);
                 header('Location: ../containers/Game/index.php');
             }else{
                 //Login errado
@@ -71,6 +60,8 @@
             }
 
         break;
+        case 'registerGame':
+            break;
         default:
             header('Location: ../containers/Login/index.php');
         break;
