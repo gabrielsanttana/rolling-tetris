@@ -1,5 +1,12 @@
 <?php
-  require '../../services/authent.php';
+  require_once '../../services/authent.php';
+  require_once '../../services/dao/GameLogDAO.php';
+  require_once '../../services/dao/PlayerDAO.php';
+  require_once '../../services/models/GameLog.php';
+  require_once '../../services/models/Player.php';
+
+  
+  $user = unserialize($_SESSION['user']);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -19,44 +26,46 @@
 
       <nav>
         <div class="nav-item">
-          <a href="../Edit/index.php">Editar perfil</a>
+          <a href="../Ranking/index.php">Ranking global</a>
         </div>
         <div class="nav-item">
-          <a href="../Ranking/index.php">Ranking global</a>
+          <a href="../Game/index.php">Game</a>
         </div>
         <div class="nav-item"><a href="../../services/logout.php">Sair</a></div>
       </nav>
     </header>
 
     <section class="editWrapper">
-      <form action="../Game/index.php">
+      <form action="../../services/api.php" method="POST">
+        <input id="method" name="method" type="text" hidden value="editPlayer"/>
+
         <label for="name">Nome completo</label>
         <input
           type="text"
           name="name"
           id="name"
           placeholder="Digite seu nome completo"
-          value="Gabriel Gomes de Santana"
+          value="<?php 
+            echo $user->getName();
+          ?>"
           autofocus
         />
 
         <label for="birthdate">Data de nascimento</label>
         <input
           type="text"
-          name="birthdate"
-          id="birthdate"
-          placeholder="Digite sua data de nascimento"
-          value="10/10/1970"
+          value="<?php 
+            echo $user->getBirthdate();
+          ?>"
           disabled
         />
 
         <label for="cpf">CPF</label>
         <input
           type="text"
-          name="cpf"
-          id="cpf"
-          placeholder="Digite seu CPF"
-          value="senha123"
+          value="<?php 
+            echo $user->getCpf();
+          ?>"
           disabled
         />
 
@@ -66,7 +75,9 @@
           name="phoneNumber"
           id="phoneNumber"
           placeholder="Digite seu telefone"
-          value="199956565656"
+          value="<?php 
+            echo $user->getPhoneNumber();
+          ?>"
         />
 
         <label for="email">E-mail</label>
@@ -75,16 +86,17 @@
           name="email"
           id="email"
           placeholder="Digite seu e-mail"
-          value="eu@eu.com"
+          value="<?php 
+            echo $user->getEmail();
+          ?>"
         />
 
         <label for="username">Nome de usuário</label>
         <input
           type="text"
-          name="username"
-          id="username"
-          placeholder="Digite seu nome de usuário"
-          value="euzinho"
+          value="<?php 
+            echo $user->getUsername();
+          ?>"
           disabled
         />
 

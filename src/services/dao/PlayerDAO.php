@@ -67,6 +67,25 @@ class PlayerDAO{
 
     public static function updatePlayer(Player $player){
         $connection = DatabaseConnection::getInstance()->getConnection();
+
+        $id = $player->getId();
+        $name = $player->getName();
+        $phoneNumber = $player->getPhoneNumber();
+        $email = $player->getEmail();
+        $password = $player->getPassword();
+
+        $query = "update player 
+                    set name = '$name',
+                    phoneNumber = '$phoneNumber',
+                    email = '$email',
+                    password = '$password' 
+                    where id = $id;";
+        
+        $result = $connection->query($query);
+        if($result->rowCount() != 0){
+            echo "Row count != 0";
+        }
+
         DatabaseConnection::getInstance()->closeConnection();
     }
 

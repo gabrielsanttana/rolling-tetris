@@ -41,7 +41,7 @@
       <h1>Rolling Tetris</h1>
 
       <nav>
-        <div class="nav-item"><a href="../Register/index.php">Editar perfil</a></div>
+        <div class="nav-item"><a href="../Edit/index.php">Editar perfil</a></div>
         <div class="nav-item">
           <a href="../Game/index.php">Game</a>
         </div>

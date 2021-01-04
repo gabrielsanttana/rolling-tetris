@@ -41,6 +41,34 @@
             }
 
         break;
+        case 'editPlayer':
+            $fieldsRequired = array("name","phoneNumber","email");
+
+            foreach($fieldsRequired as $field){
+                if(!$_POST[$field]){
+                    //Retornar erro de campo não preenchido pro cadastro
+                    header('Location: ../containers/Edit/index.php');
+                    return;
+                }
+            }
+            
+            $player = unserialize($_SESSION['user']);
+
+            $player->setName($_POST["name"]);
+            $player->setPhoneNumber($_POST["phoneNumber"]);
+            $player->setEmail($_POST["email"]);
+
+            if(($_POST["password"] != null && $_POST["passwordConfirmation"] != null) && ( $_POST["password"] == $_POST["passwordConfirmation"] )){
+                $player->setPassword($_POST["password"]);
+            }
+
+            $_SESSION['user'] = serialize($player);
+
+            PlayerDAO::updatePlayer($player);
+            
+            header('Location: ../containers/Edit/index.php');
+
+        break;
         case 'login':
             $fieldsRequired = array("user","password");
 
