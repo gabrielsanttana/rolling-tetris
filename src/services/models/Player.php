@@ -14,6 +14,9 @@ class Player{
     public function getId(){
         return $this->id;
     }
+    public function getName(){
+        return $this->name;
+    }
     
     public function __construct($name, $birthdate, $cpf, $phoneNumber, $email, $username, $password){
         $this->name = $name;

@@ -22,5 +22,33 @@ class GameLog{
         return $instance;
     }
 
+    
+    public function getId(){
+        return $this->id;
+    }
+    public function getGameTimeSecondFormatted(){
+        if ($this->game_time_seconds <= 60) {
+            return round($this->game_time_seconds) .'s';
+        } else if ($this->game_time_seconds<= 60 * 60) {
+            return round ($this->game_time_seconds/60) .'min';
+        } else if ($this->game_time_seconds <= 60 * 60 * 24) {
+            return round ($this->game_time_seconds/60/60) . 'hr';
+        } else {
+            return round ($this->game_time_seconds/60/60/24) . 'd';
+        }
+    }
+    public function getScore(){
+        return $this->score;
+    }
+    public function getClearedLines(){
+        return $this->cleared_lines;
+    }
+    public function getDifficulty(){
+        return $this->difficulty;
+    }
+    public function getUserId(){
+        return $this->user_id;
+    }
+
 }
 ?>

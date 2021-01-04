@@ -1,5 +1,9 @@
 <?php
-  require '../../services/authent.php';
+  require_once '../../services/authent.php';
+  require_once '../../services/dao/GameLogDAO.php';
+  require_once '../../services/dao/PlayerDAO.php';
+  require_once '../../services/models/GameLog.php';
+  require_once '../../services/models/Player.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -93,24 +97,24 @@
           </thead>
 
           <tbody>
-            <tr>
-              <td>Vitor Prado</td>
-              <td>300</td>
-              <td>Médio</td>
-              <td>40s</td>
-            </tr>
-            <tr>
-              <td>Vitor Prado</td>
-              <td>500</td>
-              <td>Médio</td>
-              <td>56s</td>
-            </tr>
-            <tr>
-              <td>Vitor Prado</td>
-              <td>100</td>
-              <td>Facil</td>
-              <td>10s</td>
-            </tr>
+            <?php
+              $user = unserialize($_SESSION['user']);
+              $user_id = $user->getId();
+              $user_name = $user->getName();
+              $gameLogArray = GameLogDAO::getGameLogByUserId($user_id);
+
+              foreach($gameLogArray as $gameLog){
+                $score = $gameLog->getScore();
+                $difficulty = $gameLog->getDifficulty();
+                $game_time_seconds = $gameLog->getGameTimeSecondFormatted();
+                echo "<tr>";
+                echo "  <td>$user_name</td>";
+                echo "  <td>$score</td>";
+                echo "  <td>$difficulty</td>";
+                echo "  <td>$game_time_seconds</td>";
+                echo "</tr>";
+              }
+            ?>
           </tbody>
         </table>
       </section>

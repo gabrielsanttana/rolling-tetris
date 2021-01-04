@@ -46,6 +46,28 @@ class GameLogDAO{
         return $gameLog;
     }
 
+    public static function getGameLogByUserId($user_id){
+        $connection = DatabaseConnection::getInstance()->getConnection();
+        
+        $gameLogArray = array();
+        $query = "select * from game_log 
+                    where user_id = $user_id order by id desc;";
+        
+        $result = $connection->query($query);
+        if($result->rowCount() != 0){
+            $result = $result->fetchAll();
+
+            foreach ($result as $gameLog){
+                $gameLog = GameLog::constructWithId($gameLog['id'], $gameLog['game_time_seconds'], $gameLog['score'], $gameLog['cleared_lines'], $gameLog['difficulty'], $gameLog['user_id']);
+                $gameLogArray[] = $gameLog;
+            }
+
+        }
+
+        DatabaseConnection::getInstance()->closeConnection();
+        return $gameLogArray;
+    }
+
 
     public static function updateGameLog(GameLog $gameLog){
         $connection = DatabaseConnection::getInstance()->getConnection();
