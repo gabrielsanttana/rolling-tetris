@@ -68,6 +68,73 @@ class GameLogDAO{
         return $gameLogArray;
     }
 
+    public static function getBestGameLogByUserId($user_id){
+        $connection = DatabaseConnection::getInstance()->getConnection();
+
+        $gameLog = null;
+
+        $query = "SET @x = 0;";
+        $result = $connection->query($query);
+
+        $query = "SELECT * FROM 
+        (
+        SELECT *,@x:=(@x+1) rank 
+        FROM  game_log 
+        ORDER BY score DESC 
+        ) A 
+        where user_id = $user_id
+        LIMIT 1;";
+
+
+        $result = $connection->query($query);
+        if($result->rowCount() != 0){
+            $gameLog = $result->fetchAll()[0];
+            $rank = $gameLog['rank'];
+            $gameLog = GameLog::constructWithId($gameLog['id'], $gameLog['game_time_seconds'], $gameLog['score'], $gameLog['cleared_lines'], $gameLog['difficulty'], $gameLog['user_id']);
+            $gameLog->setRank($rank);
+        }
+
+        DatabaseConnection::getInstance()->closeConnection();
+        return $gameLog;
+    }
+
+    public static function getGameLogPagination($page, $itemsPerPage){
+        $connection = DatabaseConnection::getInstance()->getConnection();
+
+        $gameLogArray = array();
+
+        if($page < 0)
+            return $gameLogArray;
+
+        $query = "SET @x = 0;";
+        $result = $connection->query($query);
+
+        $query = "SELECT * FROM 
+        (
+        SELECT *,@x:=(@x+1) rank 
+        FROM  game_log 
+        ORDER BY score DESC 
+        ) A 
+        LIMIT ". $itemsPerPage ." offset ".$page*$itemsPerPage." ;";
+
+
+        $result = $connection->query($query);
+        if($result->rowCount() != 0){
+            $result = $result->fetchAll();
+
+            foreach ($result as $gameLog){
+                $rank = $gameLog['rank'];
+                $gameLog = GameLog::constructWithId($gameLog['id'], $gameLog['game_time_seconds'], $gameLog['score'], $gameLog['cleared_lines'], $gameLog['difficulty'], $gameLog['user_id']);
+                $gameLog->setRank($rank);
+                $gameLogArray[] = $gameLog;
+            }
+
+        }
+
+        DatabaseConnection::getInstance()->closeConnection();
+        return $gameLogArray;
+    }
+
 
     public static function updateGameLog(GameLog $gameLog){
         $connection = DatabaseConnection::getInstance()->getConnection();

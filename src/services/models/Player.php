@@ -33,7 +33,7 @@ class Player{
         $instance = new self($name, $birthdate, $cpf, $phoneNumber, $email, $username, $password);
         $instance->id = $id;
         return $instance;
-    }
+    } 
 
 }
 ?>

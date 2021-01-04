@@ -1,5 +1,27 @@
 <?php
-  require '../../services/authent.php';
+  require_once '../../services/authent.php';
+  require_once '../../services/dao/GameLogDAO.php';
+  require_once '../../services/dao/PlayerDAO.php';
+  require_once '../../services/models/GameLog.php';
+  require_once '../../services/models/Player.php';
+
+  
+  $user = unserialize($_SESSION['user']);
+  $user_id = $user->getId();
+  $user_name = $user->getName();
+
+  $page = 0;
+  if(isset($_GET['page'])){
+    $page = $_GET['page'];
+  }
+
+  $gameLogArray = GameLogDAO::getGameLogPagination($page,10);
+
+  $isLastPage = false;
+  if(count($gameLogArray) <10){
+    $isLastPage = true;
+  }
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -42,13 +64,24 @@
           </thead>
 
           <tbody>
-            <tr>
-              <td><strong>4#</strong></td>
-              <td><strong>Keyla</strong></td>
-              <td>1</td>
-              <td>Médio</td>
-              <td>0s</td>
-            </tr>
+            
+            <?php
+                $gameLog = GameLogDAO::getBestGameLogByUserId($user_id);
+
+                if($gameLog != null){
+                    $rank = $gameLog->getRank();
+                    $score = $gameLog->getScore();
+                    $difficulty = $gameLog->getDifficultyFormatted();
+                    $game_time_seconds = $gameLog->getGameTimeSecondFormatted();
+                    echo "<tr>";
+                    echo "  <td><strong>$rank#</strong></td>";
+                    echo "  <td><strong>$user_name</strong></td>";
+                    echo "  <td>$score</td>";
+                    echo "  <td>$difficulty</td>";
+                    echo "  <td>$game_time_seconds</td>";
+                    echo "</tr>";
+                }
+            ?>
           </tbody>
         </table>
         <h2>Ranking global:</h2>
@@ -64,79 +97,44 @@
           </thead>
 
           <tbody>
-            <tr>
-              <td>1#</td>
-              <td>Vitor Prado</td>
-              <td>500</td>
-              <td>Médio</td>
-              <td>56s</td>
-            </tr>
-            <tr>
-              <td>2#</td>
-              <td>Vitor Prado</td>
-              <td>300</td>
-              <td>Médio</td>
-              <td>40s</td>
-            </tr>
-            <tr>
-              <td>3#</td>
-              <td>Vitor Prado</td>
-              <td>100</td>
-              <td>Facil</td>
-              <td>10s</td>
-            </tr>
-            <tr>
-              <td><strong>4#</strong></td>
-              <td><strong>Keyla</strong></td>
-              <td>90</td>
-              <td>Facil</td>
-              <td>9s</td>
-            </tr>
-            <tr>
-              <td>5#</td>
-              <td>Maycon Douglas</td>
-              <td>80</td>
-              <td>Facil</td>
-              <td>8s</td>
-            </tr>
-            <tr>
-              <td>6#</td>
-              <td>Maycon Douglas</td>
-              <td>70</td>
-              <td>Facil</td>
-              <td>7s</td>
-            </tr>
-            <tr>
-              <td>7#</td>
-              <td>Maycon Douglas</td>
-              <td>60</td>
-              <td>Facil</td>
-              <td>6s</td>
-            </tr>
-            <tr>
-              <td>8#</td>
-              <td>Maycon Douglas</td>
-              <td>50</td>
-              <td>Facil</td>
-              <td>5s</td>
-            </tr>
-            <tr>
-              <td>9#</td>
-              <td>Maycon Douglas</td>
-              <td>45</td>
-              <td>Facil</td>
-              <td>5s</td>
-            </tr>
-            <tr>
-              <td>10#</td>
-              <td>Gabriel Hacker</td>
-              <td>10</td>
-              <td>Facil</td>
-              <td>3s</td>
-            </tr>
+            <?php
+                foreach($gameLogArray as $gameLog){
+                  $rank = $gameLog->getRank();
+                  $score = $gameLog->getScore();
+                  $difficulty = $gameLog->getDifficultyFormatted();
+                  $game_time_seconds = $gameLog->getGameTimeSecondFormatted();
+                  $player_name = PlayerDAO::getPlayerById($gameLog->getUserId())->getName();
+                  echo "<tr>";
+                  echo "  <td>$rank#</td>";
+                  echo "  <td>$player_name</td>";
+                  echo "  <td>$score</td>";
+                  echo "  <td>$difficulty</td>";
+                  echo "  <td>$game_time_seconds</td>";
+                  echo "</tr>";
+                }
+            ?>
           </tbody>
         </table>
       </section>
+
+      
+      <!-- IMPLEMENTAR A PAGINAÇÃO BONITINHA AQUI KK-->
+      <div>
+        <div>
+          <?php
+           if($page > 0)
+            echo "<a href='index.php?page=" . ($page-1) . "'>Página anterior</a>";
+          ?>
+        </div>
+        <div>
+          <?php
+            if(!$isLastPage)
+              echo "<a href='index.php?page=" . ($page+1) . "'>Próxima Página</a>";
+          ?>
+        </div>
+      </div>
+      <!-- FIM DA PAGINAÇÃO-->
+
     </main>
   </body>
 </html>

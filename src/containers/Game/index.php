@@ -105,7 +105,7 @@
 
               foreach($gameLogArray as $gameLog){
                 $score = $gameLog->getScore();
-                $difficulty = $gameLog->getDifficulty();
+                $difficulty = $gameLog->getDifficultyFormatted();
                 $game_time_seconds = $gameLog->getGameTimeSecondFormatted();
                 echo "<tr>";
                 echo "  <td>$user_name</td>";

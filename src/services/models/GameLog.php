@@ -2,6 +2,7 @@
 class GameLog{
 
     private $id;
+    private $rank;
     private $game_time_seconds;
     private $score;
     private $cleared_lines;
@@ -46,8 +47,36 @@ class GameLog{
     public function getDifficulty(){
         return $this->difficulty;
     }
+
+    public function getDifficultyFormatted(){
+        switch ($this->difficulty) {
+            case 0:
+              return 'Fácil';
+      
+            case 1:
+              return 'Média';
+      
+            case 2:
+              return 'Difícil';
+      
+            case 3:
+              return 'Extrema';
+      
+            default:
+              return 'Insana';
+          }
+    }
+
     public function getUserId(){
         return $this->user_id;
+    }
+    
+    public function setRank($rank){
+        $this->rank = $rank;
+    }
+
+    public function getRank(){
+        return $this->rank;
     }
 
 }
