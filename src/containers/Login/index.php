@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,7 +10,10 @@
 
   <body>
     <section class="loginWrapper">
-      <form action="../Game/index.html">
+      <form action="../../services/api.php" method="POST">
+
+        <input id="method" name="method" type="text" hidden value="login"/>
+
         <label for="user">Usuário</label>
         <input
           type="text"
@@ -31,7 +34,7 @@
         <button type="submit">Entrar</button>
 
         <div class="registerContainer">
-          <a href="../Register/index.html">Quero me cadastrar</a>
+          <a href="../Register/index.php">Quero me cadastrar</a>
         </div>
       </form>
     </section>

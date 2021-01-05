@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,7 +10,9 @@
 
   <body>
     <section class="registerWrapper">
-      <form action="../Game/index.html">
+      <form action="../../services/api.php" method="POST">
+        <input id="method" name="method" type="text" hidden value="registerPlayer"/>
+
         <label for="name">Nome completo</label>
         <input
           type="text"
@@ -22,14 +24,14 @@
 
         <label for="birthdate">Data de nascimento</label>
         <input
-          type="text"
+          type="date"
           name="birthdate"
           id="birthdate"
           placeholder="Digite sua data de nascimento"
         />
 
         <label for="cpf">CPF</label>
-        <input type="text" name="cpf" id="cpf" placeholder="Digite sua senha" />
+        <input type="text" name="cpf" id="cpf" placeholder="Digite seu CPF" />
 
         <label for="phoneNumber">Telefone</label>
         <input
@@ -63,7 +65,7 @@
           placeholder="Digite sua senha"
         />
 
-        <button type="submit">Cadastrar</button>
+        <button type="submit" value="registerPlayer">Cadastrar</button>
       </form>
     </section>
   </body>
