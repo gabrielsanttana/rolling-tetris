@@ -18,7 +18,7 @@
   $gameLogArray = GameLogDAO::getGameLogPagination($page,6);
 
   $isLastPage = false;
-  if(count($gameLogArray) <10){
+  if(count($gameLogArray) <6){
     $isLastPage = true;
   }
 
