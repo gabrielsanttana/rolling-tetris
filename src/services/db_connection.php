@@ -41,29 +41,6 @@ class DatabaseConnection{
     }
 
 
-
-    /*public function executeQuerySql($query){
-        $this->createConnection();
-        $result = $this->connection->query($query);
-        $this->closeConnection();
-
-        return $result;
-    }
-
-    public function executeInsertSql($query){
-        $lastInsertId = null;
-        $this->createConnection();
-        $result = $this->connection->query($query);
-
-        if($result->rowCount() != 0){
-            $lastInsertId = $this->connection->lastInsertId();
-        }
-        $this->closeConnection();
-
-        return $lastInsertId;
-    }*/
-
-
 }
 
 ?>
