@@ -15,7 +15,7 @@
     $page = $_GET['page'];
   }
 
-  $gameLogArray = GameLogDAO::getGameLogPagination($page,10);
+  $gameLogArray = GameLogDAO::getGameLogPagination($page,6);
 
   $isLastPage = false;
   if(count($gameLogArray) <10){
