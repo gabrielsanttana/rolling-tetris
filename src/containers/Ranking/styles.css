@@ -96,3 +96,22 @@ main h2 {
 #tableSection table tbody tr:nth-child(odd) {
   background-color: #fff;
 }
+
+#paginator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 32px 0px 16px 0px;
+}
+#paginator a {
+  padding: 16px 32px;
+
+  border-radius: 8px;
+  box-shadow: 1px 0px 20px -3px#41444966;
+  -webkit-box-shadow: 1px 0px 20px -3px#41444966;
+  -moz-box-shadow: 1px 0px 20px -3px#41444966;
+
+}
+#paginator #lastPage {}
+#paginator #nextPage {}

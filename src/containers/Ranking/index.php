@@ -115,25 +115,27 @@
             ?>
           </tbody>
         </table>
+
+        <!-- PAGINAÇÃO -->
+        <div id="paginator">
+          <div id="lastPage">
+            <?php
+            if($page > 0)
+              echo "<a href='index.php?page=" . ($page-1) . "'>Página anterior</a>";
+            ?>
+          </div>
+          <div id="nextPage">
+            <?php
+              if(!$isLastPage)
+                echo "<a href='index.php?page=" . ($page+1) . "'>Próxima Página</a>";
+            ?>
+          </div>
+        </div>
+        <!-- FIM DA PAGINAÇÃO-->
       </section>
 
       
-      <!-- IMPLEMENTAR A PAGINAÇÃO BONITINHA AQUI KK-->
-      <div>
-        <div>
-          <?php
-           if($page > 0)
-            echo "<a href='index.php?page=" . ($page-1) . "'>Página anterior</a>";
-          ?>
-        </div>
-        <div>
-          <?php
-            if(!$isLastPage)
-              echo "<a href='index.php?page=" . ($page+1) . "'>Próxima Página</a>";
-          ?>
-        </div>
-      </div>
-      <!-- FIM DA PAGINAÇÃO-->
+      
 
     </main>
   </body>
