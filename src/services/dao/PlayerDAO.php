@@ -89,10 +89,6 @@ class PlayerDAO{
         DatabaseConnection::getInstance()->closeConnection();
     }
 
-    public static function deletePlayer(Player $player){
-        $connection = DatabaseConnection::getInstance()->getConnection();
-        DatabaseConnection::getInstance()->closeConnection();
-    }
 
 }
 
