@@ -136,17 +136,6 @@ class GameLogDAO{
     }
 
 
-    public static function updateGameLog(GameLog $gameLog){
-        $connection = DatabaseConnection::getInstance()->getConnection();
-        DatabaseConnection::getInstance()->closeConnection();
-    }
-
-    public static function deleteGameLog(GameLog $gameLog){
-        $connection = DatabaseConnection::getInstance()->getConnection();
-        DatabaseConnection::getInstance()->closeConnection();
-    }
-
-
 }
 
 ?>
