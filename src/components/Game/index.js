@@ -93,7 +93,6 @@ export default function createGame(height, width) {
     xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
     xhttp.onload = function(e) {
-      console.log('Recarregando');
       window.location.reload(true); 
     }
 

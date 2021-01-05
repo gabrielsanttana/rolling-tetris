@@ -6,15 +6,11 @@
     require_once 'models/GameLog.php';
     session_start();
 
-
-
     if(!$_POST){
         header('Location: ../containers/Login/index.php');
     }
 
     $method = $_POST['method'];
-
-    
 
     switch($method ){
         case 'registerPlayer':

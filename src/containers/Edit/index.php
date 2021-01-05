@@ -110,7 +110,7 @@
         />
         <label for="password">Deixe em branco para não mudar</label>
 
-        <label for="password">Confimar senha</label>
+        <label for="passwordConfirmation">Confimar senha</label>
         <input
           type="password"
           name="passwordConfirmation"
@@ -118,7 +118,7 @@
           placeholder="Digite sua senha para confirmar a edição"
           value=""
         />
-        <label for="password">Deixe em branco para não mudar</label>
+        <label for="passwordConfirmation">Deixe em branco para não mudar</label>
 
         <button type="submit">Editar informações</button>
       </form>
