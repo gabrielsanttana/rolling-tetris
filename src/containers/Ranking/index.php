@@ -1,5 +1,5 @@
 <?php
-  require_once '../../services/authent.php';
+  require_once '../../services/authentication.php';
   require_once '../../services/dao/GameLogDAO.php';
   require_once '../../services/dao/PlayerDAO.php';
   require_once '../../services/models/GameLog.php';
