@@ -15,11 +15,12 @@ class GameLogDAO{
 
     $result = $connection->query($query);
 
-    if($result->rowCount() != 0){
+    if($result->rowCount() != 0) {
       $lastInsertId = $connection->lastInsertId();
     }
 
     DatabaseConnection::getInstance()->closeConnection();
+
     return GameLogDAO::getGameLogById($lastInsertId);
   }
 
@@ -38,6 +39,7 @@ class GameLogDAO{
     }
 
     DatabaseConnection::getInstance()->closeConnection();
+
     return $gameLog;
   }
 
@@ -49,6 +51,7 @@ class GameLogDAO{
                 where user_id = $user_id order by id desc;";
     
     $result = $connection->query($query);
+
     if($result->rowCount() != 0){
       $result = $result->fetchAll();
 
@@ -59,6 +62,7 @@ class GameLogDAO{
     }
 
     DatabaseConnection::getInstance()->closeConnection();
+
     return $gameLogArray;
   }
 
@@ -81,7 +85,7 @@ class GameLogDAO{
 
     $result = $connection->query($query);
 
-    if($result->rowCount() != 0){
+    if($result->rowCount() != 0) {
       $gameLog = $result->fetchAll()[0];
       $rank = $gameLog['rank'];
       $gameLog = GameLog::constructWithId($gameLog['id'], $gameLog['game_time_seconds'], $gameLog['score'], $gameLog['cleared_lines'], $gameLog['difficulty'], $gameLog['user_id']);
@@ -89,6 +93,7 @@ class GameLogDAO{
     }
 
     DatabaseConnection::getInstance()->closeConnection();
+
     return $gameLog;
   }
 
@@ -125,6 +130,7 @@ class GameLogDAO{
     }
 
     DatabaseConnection::getInstance()->closeConnection();
+    
     return $gameLogArray;
   }
 }

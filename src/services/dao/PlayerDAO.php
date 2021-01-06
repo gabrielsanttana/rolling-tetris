@@ -38,6 +38,7 @@ class PlayerDAO{
     }
 
     DatabaseConnection::getInstance()->closeConnection();
+
     return $player;
   }
 
@@ -58,6 +59,7 @@ class PlayerDAO{
     }
 
     DatabaseConnection::getInstance()->closeConnection();
+
     return $player;
   }
 
@@ -78,6 +80,7 @@ class PlayerDAO{
                 where id = $id;";
     
     $result = $connection->query($query);
+    
     if($result->rowCount() != 0){
       echo "Row count != 0";
     }

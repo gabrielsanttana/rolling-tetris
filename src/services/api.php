@@ -63,8 +63,8 @@
       PlayerDAO::updatePlayer($player);
       
       header('Location: ../containers/Edit/index.php');
-
     break;
+
     case 'login':
       $fieldsRequired = array("user","password");
 
@@ -75,15 +75,15 @@
         }
       }
 
-        $player = PlayerDAO::loginPlayer($_POST['user'], $_POST['password']);
+      $player = PlayerDAO::loginPlayer($_POST['user'], $_POST['password']);
 
-        if($player != null){
-          $_SESSION['user'] = serialize($player);
-          header('Location: ../containers/Game/index.php');
-        } else{
-          //Login errado
-          header('Location: ../containers/Login/index.php');
-        }
+      if($player != null){
+        $_SESSION['user'] = serialize($player);
+        header('Location: ../containers/Game/index.php');
+      } else{
+        //Login errado
+        header('Location: ../containers/Login/index.php');
+      }
     break;
 
     case 'registerGameLog':
@@ -100,7 +100,6 @@
       $user_id = $player->getId();
 
       $gameLog = GameLogDAO::createGameLog($_POST['game_time_seconds'], $_POST['score'], $_POST['cleared_lines'], $_POST['difficulty'], $user_id);
-
       break;
 
     default:
